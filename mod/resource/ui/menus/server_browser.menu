@@ -62,20 +62,6 @@ resource/ui/menus/mods_browse.menu
       ypos              807
 		}
 
-		//test
-		//{
-		//	ControlName ListPanel
-		//	xpos		"200"
-		//	ypos		"200"
-		//	zpos 999
-		//	wide		"312"
-		//	tall		"340"
-		//	autoResize		"0"
-		//	pinCorner		"0"
-		//	visible		"1"
-		//	enabled		"1"
-		//	tabPosition		"0"
-		//}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

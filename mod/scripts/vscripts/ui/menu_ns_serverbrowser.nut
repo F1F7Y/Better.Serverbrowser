@@ -2,6 +2,7 @@ global function AddNorthstarServerBrowserMenu
 global function ThreadedAuthAndConnectToServer
 
 // Stop peeking
+// Code is a mess rn, will clean up
 
 const int BUTTONS_PER_PAGE = 15
 
