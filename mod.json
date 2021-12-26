@@ -1,6 +1,6 @@
 {
 	"Name" : "Better.Serverbrowser",
-	"Description" : "Improves the northstar serverbrowser i guess",
+	"Description" : "Improves the northstar serverbrowser\n\nReport issues at: https://github.com/F1F7Y/Better.Serverbrowser/issues",
 	"Version": "1.0.0",
 	"LoadPriority": 1,
 	"ConVars": [
