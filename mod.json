@@ -3,7 +3,7 @@
 	"Description" : "Improves the northstar serverbrowser\n\nReport issues at: https://github.com/F1F7Y/Better.Serverbrowser/issues",
 	"Version": "1.0.0",
 	"LoadPriority": 1,
-	"ConVars": []
+	"ConVars": [
 		{
 			"Name": "filter_hide_empty",
 			"DefaultValue": "0"
