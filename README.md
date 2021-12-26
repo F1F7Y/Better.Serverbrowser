@@ -18,6 +18,7 @@ You can disable the mod by clicking on it in the mods menu
   - I'd need a getter func for pointer position or relative movement
 - Latency
   - I'm waiting for it to be implemented
+- Resolutions other than 1080p break some UI
 
 ## FAQ
 - Will this be incorporated into northstar?
