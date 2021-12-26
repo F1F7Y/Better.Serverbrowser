@@ -102,7 +102,7 @@ void function InitServerBrowserMenu()
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerListDownArrow"), UIE_CLICK, OnDownArrowSelected )
 
 
-	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnFiltersApply"), UIE_CLICK, OnBtnFiltersApply_Activate )
+
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnFiltersClear"), UIE_CLICK, OnBtnFiltersClear_Activate )
 
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerNameTab"), UIE_CLICK, SortServerListByName )
@@ -111,9 +111,24 @@ void function InitServerBrowserMenu()
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerGamemodeTab"), UIE_CLICK, SortServerListByGamemode )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerGamemodeTab"), UIE_CLICK, SortServerListByLatency )
 
+
+	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnSelectMap"), UIE_CLICK, FilterAndUpdateList )
+	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnSelectGamemode"), UIE_CLICK, FilterAndUpdateList )
+	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideFull"), UIE_CLICK, FilterAndUpdateList )
+	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideEmpty"), UIE_CLICK, FilterAndUpdateList )
+	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideProtected"), UIE_CLICK, FilterAndUpdateList )
+
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerDescription"), UIE_CLICK, ShowServerDescription )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerMods"), UIE_CLICK, ShowServerMods )
 
+	// Hidden cause no need, if server descriptions become too long use this
+	Hud_SetEnabled( Hud_GetChild( file.menu, "BtnServerDescription"), false)
+	Hud_SetEnabled( Hud_GetChild( file.menu, "BtnServerMods"), false)
+	Hud_SetText( Hud_GetChild( file.menu, "BtnServerDescription"), "")
+	Hud_SetText( Hud_GetChild( file.menu, "BtnServerMods"), "")
+
+	// Unfinished features
+	Hud_SetLocked( Hud_GetChild( file.menu, "BtnServerListSlider" ), true )
 	Hud_SetLocked( Hud_GetChild( file.menu, "BtnServerLatencyTab" ), true )
 	Hud_SetLocked( Hud_GetChild( file.menu, "SwtBtnSelectMap" ), true )
 	Hud_SetLocked( Hud_GetChild( file.menu, "SwtBtnSelectGamemode" ), true )
@@ -131,11 +146,13 @@ void function OnCloseServerBrowserMenu()
 {
 	DeregisterButtonPressedCallback(MOUSE_WHEEL_UP , OnScrollUp)
 	DeregisterButtonPressedCallback(MOUSE_WHEEL_DOWN , OnScrollDown)
+	DeregisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
 }
 
 
 void function OnDownArrowSelected( var button )
 {
+	if (serversArrayFiltered.len() <= 15) return
 	file.scrollOffset += 1
 	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len()) file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
 	UpdateShownPage()
@@ -154,7 +171,8 @@ void function OnUpArrowSelected( var button )
 
 void function OnScrollDown( var button )
 {
-	file.scrollOffset += 3
+	if (serversArrayFiltered.len() <= 15) return
+	file.scrollOffset += 5
 	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len()) file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
 	UpdateShownPage()
 	UpdateListSliderPosition( serversArrayFiltered.len() )
@@ -162,7 +180,7 @@ void function OnScrollDown( var button )
 
 void function OnScrollUp( var button )
 {
-	file.scrollOffset -= 3
+	file.scrollOffset -= 5
 	if (file.scrollOffset < 0) file.scrollOffset = 0
 	UpdateShownPage()
 	UpdateListSliderPosition( serversArrayFiltered.len() )
@@ -174,9 +192,11 @@ void function UpdateListSliderHeight( float servers )
 	var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
 	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
 
-	float height = 562.0 * (15.0 / servers)
+	float maxHeight = 562.0 * (GetScreenSize()[1] / 1080.0)
 
-	if ( height > 562.0 ) height = 562.0
+	float height = maxHeight * (15.0 / servers )
+
+	if ( height > maxHeight ) height = maxHeight
 
 	Hud_SetHeight( sliderButton , height )
 	Hud_SetHeight( sliderPanel , height )
@@ -188,9 +208,14 @@ void function UpdateListSliderPosition( int servers)
 	var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
 	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
 
-	float jump = -40.0 - (562.0 - Hud_GetHeight( sliderButton )) / ( float( servers ) - 15 ) * file.scrollOffset
+	float minYPos = -40.0 * (GetScreenSize()[1] / 1080.0)
+	float useableSpace = (562.0 * (GetScreenSize()[1] / 1080.0) - Hud_GetHeight( sliderButton ))
 
-	if ( jump > -40.0 ) jump = -40.0
+	float jump = minYPos - (useableSpace / ( float( servers ) - 15.0 ) * file.scrollOffset)
+
+	//jump = jump * (GetScreenSize()[1] / 1080.0)
+
+	if ( jump > minYPos ) jump = minYPos
 
 	Hud_SetPos( sliderButton , 4, jump )
 	Hud_SetPos( sliderPanel , 4, jump )
@@ -210,22 +235,6 @@ void function ShowServerMods( var button )
 }
 
 
-void function OnBtnFiltersApply_Activate( var button )
-{
-	filterArguments.searchTerm = Hud_GetUTF8Text( Hud_GetChild( file.menu, "BtnServerSearch" ) )
-	if ( filterArguments.searchTerm == "" ) filterArguments.useSearch = false else filterArguments.useSearch = true
-
-
-	filterArguments.hideEmpty = GetConVarBool( "filter_hide_empty" )
-	filterArguments.hideFull = GetConVarBool( "filter_hide_full" )
-	filterArguments.hideProtected = GetConVarBool( "filter_hide_protected" )
-	file.scrollOffset = 0
-	FilterServerList()
-	UpdateShownPage()
-	UpdateListSliderHeight( float( serversArrayFiltered.len() ) )
-	UpdateListSliderPosition( serversArrayFiltered.len() )
-}
-
 void function OnBtnFiltersClear_Activate( var button )
 {
 	Hud_SetText( Hud_GetChild( file.menu, "BtnServerSearch" ), "" )
@@ -233,6 +242,8 @@ void function OnBtnFiltersClear_Activate( var button )
 	SetConVarBool( "filter_hide_empty", false )
 	SetConVarBool( "filter_hide_full", false )
 	SetConVarBool( "filter_hide_protected", false )
+
+	FilterAndUpdateList(0)
 }
 
 
@@ -254,6 +265,7 @@ void function OnServerBrowserMenuOpened()
 	// Scroll wheel scrolling is fucky af
 	RegisterButtonPressedCallback(MOUSE_WHEEL_UP , OnScrollUp)
 	RegisterButtonPressedCallback(MOUSE_WHEEL_DOWN , OnScrollDown)
+	RegisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
 }
 
 
@@ -382,6 +394,18 @@ void function SortServerListByLatency( var button )
 	UpdateShownPage()
 }
 
+void function FilterAndUpdateList( var n)
+{
+	filterArguments.searchTerm = Hud_GetUTF8Text( Hud_GetChild( file.menu, "BtnServerSearch" ) )
+	if ( filterArguments.searchTerm == "" ) filterArguments.useSearch = false else filterArguments.useSearch = true
+	filterArguments.hideEmpty = GetConVarBool( "filter_hide_empty" )
+	filterArguments.hideFull = GetConVarBool( "filter_hide_full" )
+	filterArguments.hideProtected = GetConVarBool( "filter_hide_protected" )
+	file.scrollOffset = 0
+	FilterServerList()
+	UpdateShownPage()
+}
+
 
 void function RefreshServers( var button )
 {
@@ -429,10 +453,13 @@ void function WaitForServerListRequest()
 
 	file.serverListRequestFailed = !NSMasterServerConnectionSuccessful()
 	if ( file.serverListRequestFailed )
+	{
 		Hud_SetText( serverButtons[ 0 ], "#NS_SERVERBROWSER_CONNECTIONFAILED" )
+	}
 	else
-		FilterServerList()
-		UpdateShownPage()
+	{
+		FilterAndUpdateList(0)
+	}
 }
 
 
@@ -555,8 +582,8 @@ void function OnServerFocused( var button )
 	Hud_SetVisible( Hud_GetChild( menu, "LabelDescription" ), true )
 	Hud_SetVisible( Hud_GetChild( menu, "LabelMods" ), false )
 	//RuiSetGameTime( textRui, "startTime", -99999.99 ) // make sure it skips the whole animation for showing this
-	Hud_SetText( Hud_GetChild( menu, "LabelDescription" ), NSGetServerDescription( serversArrayFiltered[ serverIndex ].serverIndex ) )
-	Hud_SetText( Hud_GetChild( menu, "LabelMods" ), FillInServerModsLabel( serversArrayFiltered[ serverIndex ].serverIndex ) )
+	Hud_SetText( Hud_GetChild( menu, "LabelDescription" ), NSGetServerDescription( serversArrayFiltered[ serverIndex ].serverIndex ) + "\n\nRequired Mods:\n" + FillInServerModsLabel( serversArrayFiltered[ serverIndex ].serverIndex ))
+	//Hud_SetText( Hud_GetChild( menu, "LabelMods" ), FillInServerModsLabel( serversArrayFiltered[ serverIndex ].serverIndex ) )
 
 	// map name/image/server name
 	string map = serversArrayFiltered[ serverIndex ].serverMap
@@ -585,8 +612,10 @@ string function FillInServerModsLabel( int server )
 	string ret
 
 	for ( int i = 0; i < NSGetServerRequiredModsCount( server ); i++ )
+	{
+		ret += "  "
 		ret += NSGetServerRequiredModName( server, i ) + " v" + NSGetServerRequiredModVersion( server, i ) + "\n"
-
+	}
 	return ret
 }
 
