@@ -5,7 +5,7 @@ global function ThreadedAuthAndConnectToServer
 // Code is a mess rn, will clean up
 
 const int BUTTONS_PER_PAGE = 15
-const int DOUBLE_CLICK_TIME_MS = 100
+const int DOUBLE_CLICK_TIME_MS = 40
 
 struct {
 	bool hideFull = false
@@ -714,7 +714,10 @@ void function OnServerSelected( var button )
 	}
 
 	if ( NSServerRequiresPassword( serverIndex ) )
+	{
+		OnCloseServerBrowserMenu()
 		AdvanceMenu( GetMenu( "ConnectWithPasswordMenu" ) )
+	}
 	else
 		thread ThreadedAuthAndConnectToServer()
 }
