@@ -1340,7 +1340,6 @@ resource/ui/menus/mods_browse.menu
 			InheritProperties		RuiSmallButton
 			classname 				ServerButton
 			scriptID					0
-			navUp							BtnServer15
 			navDown						BtnServer2
 			wide 							1120
 			xpos 							-8
@@ -1544,7 +1543,6 @@ resource/ui/menus/mods_browse.menu
 			pin_corner_to_sibling	TOP_LEFT
 			pin_to_sibling_corner	BOTTOM_LEFT
 			navUp					BtnServer14
-			navDown					BtnServer1
 		}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -45,6 +45,7 @@ struct {
 	bool serverListRequestFailed = false
 	float serverSelectedTime = 0
 	float serverSelectedTimeLast = 0
+	//array<string> serverButtons
 } file
 
 // string.find() works like 10% of the time
@@ -97,6 +98,7 @@ void function InitServerBrowserMenu()
 	foreach ( var button in GetElementsByClassname( GetMenu( "ServerBrowserMenu" ), "ServerButton" ) )
 	{
 		AddButtonEventHandler( button, UIE_CLICK, OnServerFocused )
+		//file.serverButtons.append(Hud_GetHudName(button))
 	}
 
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerJoin"), UIE_CLICK, OnServerSelected )
@@ -150,6 +152,8 @@ void function OnCloseServerBrowserMenu()
 	DeregisterButtonPressedCallback(MOUSE_WHEEL_UP , OnScrollUp)
 	DeregisterButtonPressedCallback(MOUSE_WHEEL_DOWN , OnScrollDown)
 	DeregisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
+	//DeregisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
+	//DeregisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
 }
 
 
@@ -269,6 +273,8 @@ void function OnServerBrowserMenuOpened()
 	RegisterButtonPressedCallback(MOUSE_WHEEL_UP , OnScrollUp)
 	RegisterButtonPressedCallback(MOUSE_WHEEL_DOWN , OnScrollDown)
 	RegisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
+	//RegisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
+	//RegisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
 }
 
 
