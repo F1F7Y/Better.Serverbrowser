@@ -1,0 +1,20 @@
+{
+	"Name" : "Better.Serverbrowser",
+	"Description" : "Improves the northstar serverbrowser i guess",
+	"Version": "1.0.0",
+	"LoadPriority": 1,
+	"ConVars": [
+		{
+			"Name": "filter_hide_empty",
+			"DefaultValue": "0"
+		},
+		{
+			"Name": "filter_hide_full",
+			"DefaultValue": "0"
+		},
+		{
+			"Name": "filter_hide_protected",
+			"DefaultValue": "0"
+		}
+	]
+}
