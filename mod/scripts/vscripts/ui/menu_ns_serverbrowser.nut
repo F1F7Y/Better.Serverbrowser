@@ -5,6 +5,7 @@ global function ThreadedAuthAndConnectToServer
 // Code is a mess rn, will clean up
 
 const int BUTTONS_PER_PAGE = 15
+const int DOUBLE_CLICK_TIME_MS = 100
 
 struct {
 	bool hideFull = false
@@ -42,6 +43,8 @@ struct {
 	int focusedServerIndex = 0
 	int scrollOffset = 0
 	bool serverListRequestFailed = false
+	float serverSelectedTime = 0
+	float serverSelectedTimeLast = 0
 } file
 
 // string.find() works like 10% of the time
@@ -575,6 +578,21 @@ void function OnServerFocused( var button )
 
 	file.focusedServerIndex = serversArrayFiltered[ file.scrollOffset + int ( Hud_GetScriptID( button ) ) ].serverIndex
 	int serverIndex = file.scrollOffset + int ( Hud_GetScriptID( button ) )
+
+	bool sameServer = false
+	if (file.lastSelectedServer == serverIndex) sameServer = true
+
+	printt(sameServer)
+
+	file.lastSelectedServer = serverIndex
+
+	file.serverSelectedTimeLast = file.serverSelectedTime
+	file.serverSelectedTime = Time()
+
+	if ((file.serverSelectedTime - file.serverSelectedTimeLast < DOUBLE_CLICK_TIME_MS) && sameServer)
+		OnServerSelected(0)
+
+
 	Hud_SetVisible( Hud_GetChild( menu, "BtnServerDescription" ), true )
 	Hud_SetVisible( Hud_GetChild( menu, "BtnServerMods" ), true )
 	Hud_SetVisible( Hud_GetChild( menu, "BtnServerJoin" ), true )
