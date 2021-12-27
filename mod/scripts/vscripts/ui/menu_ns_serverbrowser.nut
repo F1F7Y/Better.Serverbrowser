@@ -22,6 +22,8 @@ struct {
 	bool serverMap = true
 	bool serverGamemode = true
 	bool serverLatency = true
+	// 0 = none; 1 = name; 2 = players; 3 = map; 5 = gamemode; 6 = latency
+	int sortingBy = 0
 } filterDirection
 
 struct serverStruct {
@@ -280,6 +282,7 @@ void function OnServerBrowserMenuOpened()
 
 void function SortServerListByName( var button )
 {
+	filterDirection.sortingBy = 1
 
 	int n = serversArrayFiltered.len() - 1
 
@@ -305,6 +308,7 @@ void function SortServerListByName( var button )
 
 void function SortServerListByPlayers( var button )
 {
+	filterDirection.sortingBy = 2
 
 	int n = serversArrayFiltered.len() - 1
 
@@ -330,6 +334,7 @@ void function SortServerListByPlayers( var button )
 
 void function SortServerListByMap( var button )
 {
+	filterDirection.sortingBy = 3
 
 	int n = serversArrayFiltered.len() - 1
 
@@ -355,6 +360,7 @@ void function SortServerListByMap( var button )
 
 void function SortServerListByGamemode( var button )
 {
+	filterDirection.sortingBy = 5
 
 	int n = serversArrayFiltered.len() - 1
 
@@ -380,6 +386,7 @@ void function SortServerListByGamemode( var button )
 
 void function SortServerListByLatency( var button )
 {
+	filterDirection.sortingBy = 5
 
 	int n = serversArrayFiltered.len() - 1
 
@@ -403,7 +410,7 @@ void function SortServerListByLatency( var button )
 	UpdateShownPage()
 }
 
-void function FilterAndUpdateList( var n)
+void function FilterAndUpdateList( var n )
 {
 	filterArguments.searchTerm = Hud_GetUTF8Text( Hud_GetChild( file.menu, "BtnServerSearch" ) )
 	if ( filterArguments.searchTerm == "" ) filterArguments.useSearch = false else filterArguments.useSearch = true
@@ -412,7 +419,34 @@ void function FilterAndUpdateList( var n)
 	filterArguments.hideProtected = GetConVarBool( "filter_hide_protected" )
 	file.scrollOffset = 0
 	FilterServerList()
-	UpdateShownPage()
+	switch ( filterDirection.sortingBy )
+	{
+		case 0:
+			UpdateShownPage()
+			break
+		case 1:
+			filterDirection.serverName = !filterDirection.serverName
+			SortServerListByName(0)
+			break
+		case 2:
+			filterDirection.serverPlayers = !filterDirection.serverPlayers
+			SortServerListByPlayers(0)
+			break
+		case 3:
+			filterDirection.serverMap = !filterDirection.serverMap
+			SortServerListByMap(0)
+			break
+		case 5:	// 4 skipped cause it doesn't work respawn pls fix
+			filterDirection.serverGamemode = !filterDirection.serverGamemode
+			SortServerListByGamemode(0)
+			break
+		case 6:
+			filterDirection.serverLatency = !filterDirection.serverLatency
+			SortServerListByLatency(0)
+			break
+		default:
+			printt( "How the f did you get here" )
+	}
 }
 
 
