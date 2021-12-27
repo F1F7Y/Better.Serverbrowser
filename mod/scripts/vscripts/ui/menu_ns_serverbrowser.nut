@@ -5,6 +5,15 @@ global function UpdateMouseDeltaBuffer
 
 // Stop peeking
 // Code is a mess rn, will clean up
+// TODO:
+//  - PasswordProtected icons don't snap to buttons -> slight missalignment
+//  - Finish ScrollBar
+//  - Add Arrow navigation
+//  - Labels not tall enough -> g;y get cut off
+//  - Some server names are too long
+//    - Cut off in browser
+//    - Wrap in preview?
+//  - Optimize this mess
 
 const int BUTTONS_PER_PAGE = 15
 const int DOUBLE_CLICK_TIME_MS = 30
@@ -69,9 +78,43 @@ void function UpdateMouseDeltaBuffer(int x, int y)
 	mouseDeltaBuffer.deltaX += x
 	mouseDeltaBuffer.deltaY += y
 
-	printt("X: ", mouseDeltaBuffer.deltaX, "Y: ", mouseDeltaBuffer.deltaY)
+	printt("deltaX: ", mouseDeltaBuffer.deltaX, "deltaY: ", mouseDeltaBuffer.deltaY)
+
+	SliderBarUpdate()
 }
 
+void function DecreaseMouseDeltaBuffer(int x, int y)
+{
+	mouseDeltaBuffer.deltaX -= x
+	mouseDeltaBuffer.deltaY -= y
+}
+
+// Math doesn't check out
+void function SliderBarUpdate()
+{
+	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
+
+
+	float useableSpace = (562.0 * (GetScreenSize()[1] / 1080.0) - Hud_GetHeight( sliderPanel ))
+
+	float jumpSize = useableSpace / serversArrayFiltered.len()
+
+	//if ( mouseDeltaBuffer.deltaY < 0 ) mouseDeltaBuffer.deltaY *= -1
+
+	if ( mouseDeltaBuffer.deltaY < -jumpSize )
+	{
+		OnUpArrowSelected(0)
+		//printt("Down")
+		DecreaseMouseDeltaBuffer(0, -int(jumpSize) )
+	}
+	else if ( mouseDeltaBuffer.deltaY > jumpSize )
+	{
+		OnDownArrowSelected(0)
+		//printt("Up")
+		DecreaseMouseDeltaBuffer(0, int(jumpSize) )
+	}
+
+}
 
 // string.find() works like 10% of the time
 // https://www.csestack.org/implement-strstr-function-in-c/
@@ -272,8 +315,9 @@ void function OnScrollUp( var button )
 
 void function UpdateListSliderHeight( float servers )
 {
-	//var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
+	var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
 	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
+	var movementCapture = Hud_GetChild( file.menu , "MouseMovementCapture" )
 
 	float maxHeight = 562.0 * (GetScreenSize()[1] / 1080.0)
 
@@ -281,15 +325,17 @@ void function UpdateListSliderHeight( float servers )
 
 	if ( height > maxHeight ) height = maxHeight
 
-	//Hud_SetHeight( sliderButton , height )
+	Hud_SetHeight( sliderButton , height )
 	Hud_SetHeight( sliderPanel , height )
+	Hud_SetHeight( movementCapture , height )
 }
 
 
-void function UpdateListSliderPosition( int servers)
+void function UpdateListSliderPosition( int servers )
 {
-	//var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
+	var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
 	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
+	var movementCapture = Hud_GetChild( file.menu , "MouseMovementCapture" )
 
 	float minYPos = -40.0 * (GetScreenSize()[1] / 1080.0)
 	float useableSpace = (562.0 * (GetScreenSize()[1] / 1080.0) - Hud_GetHeight( sliderPanel ))
@@ -300,8 +346,9 @@ void function UpdateListSliderPosition( int servers)
 
 	if ( jump > minYPos ) jump = minYPos
 
-	//Hud_SetPos( sliderButton , 2, jump )
+	Hud_SetPos( sliderButton , 2, jump )
 	Hud_SetPos( sliderPanel , 2, jump )
+	Hud_SetPos( movementCapture , 2, jump )
 }
 
 
@@ -492,8 +539,6 @@ void function FilterAndUpdateList( var n )
 	if ( filterArguments.searchTerm == "" ) filterArguments.useSearch = false else filterArguments.useSearch = true
 	filterArguments.filterMap = GetStringInArrayByIndex( filterArguments.filterMaps, GetConVarInt( "filter_map" ) )
 	filterArguments.filterGamemode = GetStringInArrayByIndex( filterArguments.filterGamemodes, GetConVarInt( "filter_gamemode" ) )
-	printt( filterArguments.filterMap )
-	printt("-----------------------------------")
 	filterArguments.hideEmpty = GetConVarBool( "filter_hide_empty" )
 	filterArguments.hideFull = GetConVarBool( "filter_hide_full" )
 	filterArguments.hideProtected = GetConVarBool( "filter_hide_protected" )
@@ -641,7 +686,6 @@ void function FilterServerList()
 
 void function CheckGamemode( serverStruct t )
 {
-	printt( t.serverGamemode )
 	if (filterArguments.filterGamemode != "Any" && filterArguments.filterGamemode == t.serverGamemode)
 	{
 		serversArrayFiltered.append( t )
@@ -720,7 +764,6 @@ void function OnServerFocused( var button )
 	bool sameServer = false
 	if (file.lastSelectedServer == serverIndex) sameServer = true
 
-	printt(sameServer)
 
 	file.lastSelectedServer = serverIndex
 
