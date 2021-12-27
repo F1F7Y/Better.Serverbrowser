@@ -1,11 +1,19 @@
 global function AddNorthstarServerBrowserMenu
 global function ThreadedAuthAndConnectToServer
 
+global function UpdateMouseDeltaBuffer
+
 // Stop peeking
 // Code is a mess rn, will clean up
 
 const int BUTTONS_PER_PAGE = 15
-const int DOUBLE_CLICK_TIME_MS = 40
+const int DOUBLE_CLICK_TIME_MS = 30
+
+
+struct {
+	int deltaX = 0
+	int deltaY = 0
+} mouseDeltaBuffer
 
 struct {
 	bool hideFull = false
@@ -53,6 +61,17 @@ struct {
 	float serverSelectedTimeLast = 0
 	//array<string> serverButtons
 } file
+
+
+
+void function UpdateMouseDeltaBuffer(int x, int y)
+{
+	mouseDeltaBuffer.deltaX += x
+	mouseDeltaBuffer.deltaY += y
+
+	printt("X: ", mouseDeltaBuffer.deltaX, "Y: ", mouseDeltaBuffer.deltaY)
+}
+
 
 // string.find() works like 10% of the time
 // https://www.csestack.org/implement-strstr-function-in-c/
@@ -190,7 +209,7 @@ void function InitServerBrowserMenu()
 	Hud_SetText( Hud_GetChild( file.menu, "BtnServerMods"), "")
 
 	// Unfinished features
-	Hud_SetLocked( Hud_GetChild( file.menu, "BtnServerListSlider" ), true )
+	//Hud_SetLocked( Hud_GetChild( file.menu, "BtnServerListSlider" ), true )
 	Hud_SetLocked( Hud_GetChild( file.menu, "BtnServerLatencyTab" ), true )
 	//Hud_SetLocked( Hud_GetChild( file.menu, "SwtBtnSelectMap" ), true )
 	//Hud_SetLocked( Hud_GetChild( file.menu, "SwtBtnSelectGamemode" ), true )
@@ -253,7 +272,7 @@ void function OnScrollUp( var button )
 
 void function UpdateListSliderHeight( float servers )
 {
-	var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
+	//var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
 	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
 
 	float maxHeight = 562.0 * (GetScreenSize()[1] / 1080.0)
@@ -262,18 +281,18 @@ void function UpdateListSliderHeight( float servers )
 
 	if ( height > maxHeight ) height = maxHeight
 
-	Hud_SetHeight( sliderButton , height )
+	//Hud_SetHeight( sliderButton , height )
 	Hud_SetHeight( sliderPanel , height )
 }
 
 
 void function UpdateListSliderPosition( int servers)
 {
-	var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
+	//var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
 	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
 
 	float minYPos = -40.0 * (GetScreenSize()[1] / 1080.0)
-	float useableSpace = (562.0 * (GetScreenSize()[1] / 1080.0) - Hud_GetHeight( sliderButton ))
+	float useableSpace = (562.0 * (GetScreenSize()[1] / 1080.0) - Hud_GetHeight( sliderPanel ))
 
 	float jump = minYPos - (useableSpace / ( float( servers ) - 15.0 ) * file.scrollOffset)
 
@@ -281,8 +300,8 @@ void function UpdateListSliderPosition( int servers)
 
 	if ( jump > minYPos ) jump = minYPos
 
-	Hud_SetPos( sliderButton , 4, jump )
-	Hud_SetPos( sliderPanel , 4, jump )
+	//Hud_SetPos( sliderButton , 2, jump )
+	Hud_SetPos( sliderPanel , 2, jump )
 }
 
 
@@ -306,6 +325,8 @@ void function OnBtnFiltersClear_Activate( var button )
 	SetConVarBool( "filter_hide_empty", false )
 	SetConVarBool( "filter_hide_full", false )
 	SetConVarBool( "filter_hide_protected", false )
+	SetConVarInt( "filter_map", 0 )
+	SetConVarInt( "filter_gamemode", 0 )
 
 	FilterAndUpdateList(0)
 }
