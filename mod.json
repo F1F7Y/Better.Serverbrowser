@@ -15,6 +15,14 @@
 		{
 			"Name": "filter_hide_protected",
 			"DefaultValue": "0"
+		},
+		{
+			"Name": "filter_map",
+			"DefaultValue": "0"
+		},
+		{
+			"Name": "filter_gamemode",
+			"DefaultValue": "0"
 		}
 	]
 }

@@ -1679,7 +1679,7 @@ resource/ui/menus/mods_browse.menu
 		ControlName					RuiButton
 		InheritProperties		RuiSmallButton
 		labelText			"Search: "
-		wide					400
+		wide					500
 		xpos -23
 		ypos -16
 
@@ -1697,9 +1697,9 @@ resource/ui/menus/mods_browse.menu
 		ControlName				TextEntry
 		keyboardTitle			"Search"
 		zpos					100 // This works around input weirdness when the control is constructed by code instead of VGUI blackbox.
-		xpos 					-300
+		xpos 					-400
 		ypos 					-5
-		wide					280
+		wide					380
 		tall					30
 		scriptID				19
 		textHidden				0
@@ -1719,13 +1719,8 @@ resource/ui/menus/mods_browse.menu
 		ControlName					RuiButton
 		InheritProperties		SwitchButton
 		labelText						"Map"
-		wide    						400
-
-
-		list
-		{
-			"Any"	0
-		}
+		ConVar							"filter_map"
+		wide    						500
 
 		pin_to_sibling SearchLabel
 		pin_corner_to_sibling		TOP_LEFT
@@ -1737,13 +1732,8 @@ resource/ui/menus/mods_browse.menu
 		ControlName					RuiButton
 		InheritProperties		SwitchButton
 		labelText						"Gamemode"
-		wide    						400
-
-
-		list
-		{
-			"Any"	0
-		}
+		ConVar							"filter_gamemode"
+		wide    						500
 
 		pin_to_sibling SwtBtnSelectMap
 		pin_corner_to_sibling	TOP_LEFT
@@ -1757,7 +1747,7 @@ resource/ui/menus/mods_browse.menu
 		InheritProperties		SwitchButton
 		labelText						"Hide Full Servers"
 		ConVar							"filter_hide_full"
-		wide    						400
+		wide    						500
 
 
 		list
@@ -1777,7 +1767,7 @@ resource/ui/menus/mods_browse.menu
 		InheritProperties		SwitchButton
 		labelText						"Hide Empty Servers"
 		ConVar							"filter_hide_empty"
-		wide    						400
+		wide    						500
 
 
 		list
@@ -1796,7 +1786,7 @@ resource/ui/menus/mods_browse.menu
 		InheritProperties		SwitchButton
 		labelText						"Hide Protected Servers"
 		ConVar							"filter_hide_protected"
-		wide    						400
+		wide    						500
 
 		list
 		{
