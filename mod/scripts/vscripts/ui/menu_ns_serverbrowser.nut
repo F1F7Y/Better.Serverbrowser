@@ -15,6 +15,8 @@ global function UpdateMouseDeltaBuffer
 //    - Wrap in preview?
 //  - Optimize this mess
 
+// Follow pointer, let scrollOffset be it's own thing -> will look more fluid; fix the sync issue?
+
 const int BUTTONS_PER_PAGE = 15
 const int DOUBLE_CLICK_TIME_MS = 30
 
@@ -78,8 +80,6 @@ void function UpdateMouseDeltaBuffer(int x, int y)
 	mouseDeltaBuffer.deltaX += x
 	mouseDeltaBuffer.deltaY += y
 
-	printt("deltaX: ", mouseDeltaBuffer.deltaX, "deltaY: ", mouseDeltaBuffer.deltaY)
-
 	SliderBarUpdate()
 }
 
@@ -87,6 +87,12 @@ void function DecreaseMouseDeltaBuffer(int x, int y)
 {
 	mouseDeltaBuffer.deltaX -= x
 	mouseDeltaBuffer.deltaY -= y
+}
+
+void function FlushMouseDeltaBuffer()
+{
+	mouseDeltaBuffer.deltaX = 0
+	mouseDeltaBuffer.deltaY = 0
 }
 
 // Math doesn't check out
@@ -104,14 +110,16 @@ void function SliderBarUpdate()
 	if ( mouseDeltaBuffer.deltaY < -jumpSize )
 	{
 		OnUpArrowSelected(0)
-		//printt("Down")
+		printt("Scrolled up by: ", mouseDeltaBuffer.deltaY, "; Will increase delta by: ", -jumpSize, " to: ", mouseDeltaBuffer.deltaY + jumpSize)
 		DecreaseMouseDeltaBuffer(0, -int(jumpSize) )
+		//FlushMouseDeltaBuffer()
 	}
 	else if ( mouseDeltaBuffer.deltaY > jumpSize )
 	{
 		OnDownArrowSelected(0)
-		//printt("Up")
+		printt("Scrolled down by: ", mouseDeltaBuffer.deltaY, "; Will decrease delta by: ", jumpSize, " to: ", mouseDeltaBuffer.deltaY - jumpSize)
 		DecreaseMouseDeltaBuffer(0, int(jumpSize) )
+		//FlushMouseDeltaBuffer()
 	}
 
 }
