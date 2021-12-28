@@ -131,6 +131,7 @@ void function SliderBarUpdate()
 	UpdateShownPage()
 }
 
+
 // string.find() works like 10% of the time
 // https://www.csestack.org/implement-strstr-function-in-c/
 bool function strstr(string str, string strSub)
@@ -156,6 +157,12 @@ bool function strstr(string str, string strSub)
         }
     }
     return false
+}
+
+bool function floatCompareInRange(float arg1, float arg2, float tolerance)
+{
+	if ( arg1 > arg2 - tolerance || arg1 < arg2 + tolerance) return true
+	return false
 }
 
 
@@ -201,6 +208,9 @@ void function AddNorthstarServerBrowserMenu()
 void function InitServerBrowserMenu()
 {
 	file.menu = GetMenu( "ServerBrowserMenu" )
+
+	//UpdateServerInfoBasedOnRes()
+
 
 	filterArguments.filterMaps = GetPrivateMatchMaps()
 	filterArguments.filterMaps.insert(0, "Any")
@@ -279,6 +289,29 @@ void function InitServerBrowserMenu()
 	RuiSetString( Hud_GetRui( Hud_GetChild( file.menu, "SwtBtnSelectMap")), "buttonText", "")
 	RuiSetString( Hud_GetRui( Hud_GetChild( file.menu, "SwtBtnSelectGamemode")), "buttonText", "")
 }
+
+// Get res ronvar instead of this crap
+//void function UpdateServerInfoBasedOnRes()
+//{
+	/*printt(floatCompareInRange(float(GetScreenSize()[0]) / float(GetScreenSize()[1]) , 4.0/3.0, 0.5))
+	printt("------------------------------------------------------------------")
+	if (floatCompareInRange(float(GetScreenSize()[0]) / float(GetScreenSize()[1]) , 16/10, 0.25))
+	{
+		Hud_SetWidth( Hud_GetChild(file.menu, "ServerName"), 392)
+		Hud_SetWidth( Hud_GetChild(file.menu, "NextMapImage"), 400)
+		Hud_SetWidth( Hud_GetChild(file.menu, "LabelMods"), 360)
+		Hud_SetWidth( Hud_GetChild(file.menu, "LabelDescription"), 360)
+		Hud_SetWidth( Hud_GetChild(file.menu, "ServerDetailsPanel"), 400)
+	}
+	if(floatCompareInRange(float(GetScreenSize()[0]) / float(GetScreenSize()[1]) , 4.0/3.0, 0.25))
+	{
+		Hud_SetWidth( Hud_GetChild(file.menu, "ServerName"), 292)
+		Hud_SetWidth( Hud_GetChild(file.menu, "NextMapImage"), 300)
+		Hud_SetWidth( Hud_GetChild(file.menu, "LabelMods"), 260)
+		Hud_SetWidth( Hud_GetChild(file.menu, "LabelDescription"), 260)
+		Hud_SetWidth( Hud_GetChild(file.menu, "ServerDetailsPanel"), 300)*/
+	//}
+//}
 
 
 void function OnCloseServerBrowserMenu()
@@ -614,6 +647,7 @@ void function WaitForServerListRequest()
 {
 	var menu = GetMenu( "ServerBrowserMenu" )
 	array<var> serverButtons = GetElementsByClassname( menu, "ServerButton" )
+	array<var> serversName = GetElementsByClassname( menu, "ServerName" )
 	foreach ( var button in serverButtons )
 	{
 		Hud_SetVisible( button, false )
@@ -632,9 +666,9 @@ void function WaitForServerListRequest()
 	Hud_SetVisible( Hud_GetChild( menu, "BtnServerJoin" ), false )
 
 
-	Hud_SetVisible( serverButtons[ 0 ], true )
+	Hud_SetVisible( serversName[ 0 ], true )
 
-	Hud_SetText( serverButtons[ 0 ], "#NS_SERVERBROWSER_WAITINGFORSERVERS" )
+	Hud_SetText( serversName[ 0 ], "#NS_SERVERBROWSER_WAITINGFORSERVERS" )
 
 	// wait for request to complete
 	while ( NSIsRequestingServerList() )
@@ -643,7 +677,7 @@ void function WaitForServerListRequest()
 	file.serverListRequestFailed = !NSMasterServerConnectionSuccessful()
 	if ( file.serverListRequestFailed )
 	{
-		Hud_SetText( serverButtons[ 0 ], "#NS_SERVERBROWSER_CONNECTIONFAILED" )
+		Hud_SetText( serversName[ 0 ], "#NS_SERVERBROWSER_CONNECTIONFAILED" )
 	}
 	else
 	{
@@ -722,6 +756,7 @@ void function UpdateShownPage()
 
 	// Get and Hide serverButtons
 	array<var> serverButtons = GetElementsByClassname( menu, "ServerButton" )
+	array<var> serversName = GetElementsByClassname( menu, "ServerName" )
 	array<var> playerCountLabels = GetElementsByClassname( menu, "PlayerCount" )
 	array<var> serversProtected = GetElementsByClassname( menu, "ServerLock" )
 	array<var> serversMap = GetElementsByClassname( menu, "ServerMap" )
@@ -732,7 +767,7 @@ void function UpdateShownPage()
 	{
 		Hud_SetVisible( serversProtected[ i ], false )
 		Hud_SetVisible( serverButtons[ i ], false )
-		Hud_SetText( serverButtons[ i ], "" )
+		Hud_SetText( serversName[ i ], "" )
 		Hud_SetText( playerCountLabels[ i ], "" )
 		Hud_SetText( serversMap[ i ], "" )
 		Hud_SetText( serversGamemode[ i ], "" )
@@ -751,7 +786,7 @@ void function UpdateShownPage()
 		Hud_SetVisible( serverButtons[ i ], true )
 
 		Hud_SetVisible( serversProtected[ i ], serversArrayFiltered[ buttonIndex ].serverProtected )
-		Hud_SetText( serverButtons[ i ], serversArrayFiltered[ buttonIndex ].serverName )
+		Hud_SetText( serversName[ i ], serversArrayFiltered[ buttonIndex ].serverName )
 		Hud_SetText( playerCountLabels[ i ], format( "%i/%i", serversArrayFiltered[ buttonIndex ].serverPlayers, serversArrayFiltered[ buttonIndex ].serverPlayersMax ) )
 		Hud_SetText( serversMap[ i ], GetMapDisplayName( serversArrayFiltered[ buttonIndex ].serverMap ) )
 		Hud_SetText( serversGamemode[ i ], serversArrayFiltered[ buttonIndex ].serverGamemode )
@@ -762,7 +797,7 @@ void function UpdateShownPage()
 	{
 		Hud_SetEnabled( serverButtons[ 0 ], true )
 		Hud_SetVisible( serverButtons[ 0 ], true )
-		Hud_SetText( serverButtons[ 0 ], "#NS_SERVERBROWSER_NOSERVERS" )
+		Hud_SetText( serversName[ 0 ], "#NS_SERVERBROWSER_NOSERVERS" )
 	}
 	UpdateListSliderHeight( float( serversArrayFiltered.len() ) )
 }

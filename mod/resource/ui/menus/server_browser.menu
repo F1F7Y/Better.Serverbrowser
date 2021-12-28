@@ -324,6 +324,232 @@ resource/ui/menus/mods_browse.menu
 			pin_to_sibling_corner		TOP_RIGHT
 		}
 
+		BtnServerName0
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer1
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName1
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer2
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName2
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer3
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName3
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer4
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName4
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer5
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName5
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer6
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName6
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer7
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName7
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer8
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName8
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer9
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName9
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer10
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName10
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer11
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName11
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer12
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName12
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer13
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName13
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer14
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+		BtnServerName14
+		{
+			ControlName				Label
+			labelText				""
+			textAlignment	west
+			classname ServerName
+			wide 586
+			tall 44
+			ypos -44
+			xpos -14
+
+			pin_to_sibling			BtnServer15
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	BOTTOM_LEFT
+		}
+
 
 		// Players
 		BtnServerPlayersTab
@@ -1983,6 +2209,9 @@ resource/ui/menus/mods_browse.menu
 			xpos					-8
 			zpos 					1
 			wide 					492
+			tall 					88
+			wrap 						1
+			textAlignment			north
 
 			labelText				"Server name"
 			use_proportional_insets	1
