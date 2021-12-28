@@ -1,3 +1,6 @@
+untyped
+// Only way to get Hud_GetPos(sliderButton) working was to use untyped; still not 100% sure what it does
+
 global function AddNorthstarServerBrowserMenu
 global function ThreadedAuthAndConnectToServer
 
@@ -18,7 +21,7 @@ global function UpdateMouseDeltaBuffer
 // Follow pointer, let scrollOffset be it's own thing -> will look more fluid; fix the sync issue?
 
 const int BUTTONS_PER_PAGE = 15
-const int DOUBLE_CLICK_TIME_MS = 30
+const int DOUBLE_CLICK_TIME_MS = 20 // unsure what the ideal value is
 
 
 struct {
@@ -95,33 +98,37 @@ void function FlushMouseDeltaBuffer()
 	mouseDeltaBuffer.deltaY = 0
 }
 
-// Math doesn't check out
+
 void function SliderBarUpdate()
 {
+	var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
 	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
+	var movementCapture = Hud_GetChild( file.menu , "MouseMovementCapture" )
 
+	Hud_SetFocused(sliderButton)
 
-	float useableSpace = (562.0 * (GetScreenSize()[1] / 1080.0) - Hud_GetHeight( sliderPanel ))
+	float minYPos = -40.0 * (GetScreenSize()[1] / 1080.0)
+	float maxHeight = 562.0  * (GetScreenSize()[1] / 1080.0)
+	float maxYPos = minYPos - (maxHeight - Hud_GetHeight( sliderPanel ))
+	float useableSpace = (maxHeight - Hud_GetHeight( sliderPanel ))
 
-	float jumpSize = useableSpace / serversArrayFiltered.len()
+	float jump = minYPos - (useableSpace / ( float( serversArrayFiltered.len())))
 
-	//if ( mouseDeltaBuffer.deltaY < 0 ) mouseDeltaBuffer.deltaY *= -1
+	// got local from official respaw scripts, without untyped throws an error
+	local pos =	Hud_GetPos(sliderButton)[1]
+	local newPos = pos - mouseDeltaBuffer.deltaY
+	FlushMouseDeltaBuffer()
 
-	if ( mouseDeltaBuffer.deltaY < -jumpSize )
-	{
-		OnUpArrowSelected(0)
-		printt("Scrolled up by: ", mouseDeltaBuffer.deltaY, "; Will increase delta by: ", -jumpSize, " to: ", mouseDeltaBuffer.deltaY + jumpSize)
-		DecreaseMouseDeltaBuffer(0, -int(jumpSize) )
-		//FlushMouseDeltaBuffer()
-	}
-	else if ( mouseDeltaBuffer.deltaY > jumpSize )
-	{
-		OnDownArrowSelected(0)
-		printt("Scrolled down by: ", mouseDeltaBuffer.deltaY, "; Will decrease delta by: ", jumpSize, " to: ", mouseDeltaBuffer.deltaY - jumpSize)
-		DecreaseMouseDeltaBuffer(0, int(jumpSize) )
-		//FlushMouseDeltaBuffer()
-	}
+	if ( newPos < maxYPos ) newPos = maxYPos
+	if ( newPos > minYPos ) newPos = minYPos
 
+	Hud_SetPos( sliderButton , 2, newPos )
+	Hud_SetPos( sliderPanel , 2, newPos )
+	Hud_SetPos( movementCapture , 2, newPos )
+
+	printt("scrollOffset: ", -int( ( (newPos - minYPos) / useableSpace ) * (serversArrayFiltered.len() - 15) ), "max: ", serversArrayFiltered.len() - 15)
+	file.scrollOffset = -int( ( (newPos - minYPos) / useableSpace ) * (serversArrayFiltered.len() - 15) )
+	UpdateShownPage()
 }
 
 // string.find() works like 10% of the time
@@ -219,11 +226,11 @@ void function InitServerBrowserMenu()
 	AddMenuFooterOption( file.menu, BUTTON_B, "#B_BUTTON_BACK", "#BACK" )
 	AddMenuFooterOption( file.menu, BUTTON_Y, "#Y_REFRESH_SERVERS", "#REFRESH_SERVERS", RefreshServers )
 
-
+	var width = 1120.0  * (GetScreenSize()[1] / 1080.0)
 	foreach ( var button in GetElementsByClassname( GetMenu( "ServerBrowserMenu" ), "ServerButton" ) )
 	{
 		AddButtonEventHandler( button, UIE_CLICK, OnServerFocused )
-		//file.serverButtons.append(Hud_GetHudName(button))
+		Hud_SetWidth( button , width )
 	}
 
 
@@ -357,6 +364,8 @@ void function UpdateListSliderPosition( int servers )
 	Hud_SetPos( sliderButton , 2, jump )
 	Hud_SetPos( sliderPanel , 2, jump )
 	Hud_SetPos( movementCapture , 2, jump )
+
+	printt("scrollOffset: ", file.scrollOffset)
 }
 
 
@@ -550,7 +559,9 @@ void function FilterAndUpdateList( var n )
 	filterArguments.hideEmpty = GetConVarBool( "filter_hide_empty" )
 	filterArguments.hideFull = GetConVarBool( "filter_hide_full" )
 	filterArguments.hideProtected = GetConVarBool( "filter_hide_protected" )
+
 	file.scrollOffset = 0
+	UpdateListSliderPosition( serversArrayFiltered.len() )
 
 	FilterServerList()
 
@@ -753,9 +764,7 @@ void function UpdateShownPage()
 		Hud_SetVisible( serverButtons[ 0 ], true )
 		Hud_SetText( serverButtons[ 0 ], "#NS_SERVERBROWSER_NOSERVERS" )
 	}
-
 	UpdateListSliderHeight( float( serversArrayFiltered.len() ) )
-	UpdateListSliderPosition( serversArrayFiltered.len() )
 }
 
 
