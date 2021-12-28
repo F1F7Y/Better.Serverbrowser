@@ -314,7 +314,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName				RuiButton
 			InheritProperties		RuiSmallButton
-			labelText "Servers"
+			labelText "#SERVERS_COLUMN"
 			wide 600
 			xpos -4
 			ypos -1
@@ -556,7 +556,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName				RuiButton
 			InheritProperties		RuiSmallButton
-			labelText "Players"
+			labelText "#PLAYERS_COLUMN"
 			wide 104
 			xpos 4
 
@@ -781,7 +781,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName							RuiButton
 			InheritProperties				RuiSmallButton
-			labelText 							"Map"
+			labelText 							"#MAP_COLUMN"
 			textAlignment 					center
 			wide 										140
 			xpos 										4
@@ -1007,7 +1007,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName							RuiButton
 			InheritProperties				RuiSmallButton
-			labelText 							"Gamemode"
+			labelText 							"#GAMEMODE_COLUMN"
 			wide 										150
 			xpos 										4
 
@@ -1232,7 +1232,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName							RuiButton
 			InheritProperties				RuiSmallButton
-			labelText 							"Latency"
+			labelText 							"#LATENCY_COLUMN"
 			wide 										110
 			xpos 										4
 
@@ -1947,7 +1947,7 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName					RuiButton
 		InheritProperties		RuiSmallButton
-		labelText			"Search"
+		labelText			"#SEARCHBAR_LABEL"
 		textAlignment east
 		wide					500
 		xpos -23
@@ -1987,7 +1987,7 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName					RuiButton
 		InheritProperties		SwitchButton
-		labelText						"Map"
+		labelText						"#MAP_FILTER"
 		ConVar							"filter_map"
 		wide    						500
 
@@ -2000,7 +2000,7 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName					RuiButton
 		InheritProperties		SwitchButton
-		labelText						"Gamemode"
+		labelText						"#GAMEMODE_FILTER"
 		ConVar							"filter_gamemode"
 		wide    						500
 
@@ -2014,15 +2014,15 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName					RuiButton
 		InheritProperties		SwitchButton
-		labelText						"Hide Full Servers"
+		labelText						"#HIDE_FULL_FILTER"
 		ConVar							"filter_hide_full"
 		wide    						500
 
 
 		list
 		{
-			"NO"	0
-			"YES"	1
+			"#SWITCH_NO"	0
+			"#SWITCH_YES"	1
 		}
 
 		pin_to_sibling BtnSearchLabel
@@ -2034,15 +2034,15 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName					RuiButton
 		InheritProperties		SwitchButton
-		labelText						"Hide Empty Servers"
+		labelText						"#HIDE_EMPTY_FILTER"
 		ConVar							"filter_hide_empty"
 		wide    						500
 
 
 		list
 		{
-			"NO"	0
-			"YES"	1
+			"#SWITCH_NO"	0
+			"#SWITCH_YES"	1
 		}
 
 		pin_to_sibling SwtBtnHideFull
@@ -2053,14 +2053,14 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName					RuiButton
 		InheritProperties		SwitchButton
-		labelText						"Hide Protected Servers"
+		labelText						"#HIDE_PROT_FILTER"
 		ConVar							"filter_hide_protected"
 		wide    						500
 
 		list
 		{
-			"NO"	0
-			"YES"	1
+			"#SWITCH_NO"	0
+			"#SWITCH_YES"	1
 		}
 
 		pin_to_sibling SwtBtnHideEmpty
@@ -2072,7 +2072,7 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName							RuiButton
 		InheritProperties				RuiSmallButton
-		labelText				"CLEAR"
+		labelText				"#CLEAR_FILTERS"
 		wide 100
 		xpos		-17
 		ypos 		-57
@@ -2228,7 +2228,7 @@ resource/ui/menus/mods_browse.menu
 			wrap 						1
 			textAlignment			north
 
-			labelText				"Server name"
+			//labelText				"Server name"
 			use_proportional_insets	1
 			textinsetx 				2
 			font					Default_28_DropShadow
@@ -2244,7 +2244,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName							RuiButton
 			InheritProperties				RuiSmallButton
-			labelText				"DESCRIPTION"
+			labelText				"#DESCRIPTION"
 
 			textAlignment	center
 			wide 250
@@ -2259,7 +2259,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName							RuiButton
 			InheritProperties				RuiSmallButton
-			labelText				"MODS"
+			labelText				"#MODS"
 
 			textAlignment	center
 			wide 250
@@ -2274,7 +2274,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName							RuiButton
 			InheritProperties				RuiSmallButton
-			labelText				"JOIN"
+			labelText				"#JOIN_BUTTON"
 			wide 80
 			xpos -17
 			ypos -57

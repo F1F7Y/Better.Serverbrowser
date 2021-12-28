@@ -1,7 +1,7 @@
 {
 	"Name" : "Better.Serverbrowser",
-	"Description" : "Improves the northstar serverbrowser\n\nReport issues at: https://github.com/F1F7Y/Better.Serverbrowser/issues\nor on discord: Fifty#8113",
-	"Version": "1.2.0",
+	"Description" : "Improves the northstar serverbrowser\n\nContributors:\n  - Fifty#8113\n  - Meelo#6036\n\nReport issues at: https://github.com/F1F7Y/Better.Serverbrowser/issues\nor on discord: Fifty#8113",
+	"Version": "1.2.1",
 	"LoadPriority": 1,
 	"ConVars": [
 		{
@@ -24,5 +24,8 @@
 			"Name": "filter_gamemode",
 			"DefaultValue": "0"
 		}
+	],
+	"Localisation": [
+		"resource/better_serverbrowser_localisation_%language%.txt"
 	]
 }

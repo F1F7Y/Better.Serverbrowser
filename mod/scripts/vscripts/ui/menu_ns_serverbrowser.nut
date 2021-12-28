@@ -214,7 +214,7 @@ void function InitServerBrowserMenu()
 
 
 	filterArguments.filterMaps = GetPrivateMatchMaps()
-	filterArguments.filterMaps.insert(0, "Any")
+	filterArguments.filterMaps.insert(0, "SWITCH_ANY")
 	filterArguments.filterMaps.append("mp_lobby")
 
 	foreach ( int enum_, string map in filterArguments.filterMaps )
@@ -222,7 +222,7 @@ void function InitServerBrowserMenu()
 
 
 	filterArguments.filterGamemodes = GetNorthstarGamemodes()
-	filterArguments.filterGamemodes.insert(0, "Any")
+	filterArguments.filterGamemodes.insert(0, "SWITCH_ANY")
 
 	// GetGameModeDisplayName( mode ) requires server talk even if it can be entirely client side
 	foreach ( int enum_, string mode in filterArguments.filterGamemodes )
@@ -734,11 +734,11 @@ void function FilterServerList()
 
 				if ( strstr(sName, sTerm) )
 				{
-					if (filterArguments.filterMap != "Any" && filterArguments.filterMap == tempServer.serverMap)
+					if (filterArguments.filterMap != "SWITCH_ANY" && filterArguments.filterMap == tempServer.serverMap)
 					{
 						CheckGamemode( tempServer )
 					}
-					else if (filterArguments.filterMap == "Any")
+					else if (filterArguments.filterMap == "SWITCH_ANY")
 					{
 						CheckGamemode( tempServer )
 					}
@@ -746,11 +746,11 @@ void function FilterServerList()
 			}
 			else
 			{
-				if (filterArguments.filterMap != "Any" && filterArguments.filterMap == tempServer.serverMap)
+				if (filterArguments.filterMap != "SWITCH_ANY" && filterArguments.filterMap == tempServer.serverMap)
 				{
 					CheckGamemode( tempServer )
 				}
-				else if (filterArguments.filterMap == "Any")
+				else if (filterArguments.filterMap == "SWITCH_ANY")
 				{
 					CheckGamemode( tempServer )
 				}
@@ -761,11 +761,11 @@ void function FilterServerList()
 
 void function CheckGamemode( serverStruct t )
 {
-	if (filterArguments.filterGamemode != "Any" && filterArguments.filterGamemode == t.serverGamemode)
+	if (filterArguments.filterGamemode != "SWITCH_ANY" && filterArguments.filterGamemode == t.serverGamemode)
 	{
 		serversArrayFiltered.append( t )
 	}
-	else if (filterArguments.filterGamemode == "Any")
+	else if (filterArguments.filterGamemode == "SWITCH_ANY")
 	{
 		serversArrayFiltered.append( t )
 	}
