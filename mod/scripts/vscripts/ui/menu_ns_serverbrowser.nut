@@ -9,14 +9,10 @@ global function UpdateMouseDeltaBuffer
 // Stop peeking
 // Code is a mess rn, will clean up
 // TODO:
-//  - PasswordProtected icons don't snap to buttons -> slight missalignment
-//  - Finish ScrollBar
-//  - Add Arrow navigation
-//  - Labels not tall enough -> g;y get cut off
-//  - Some server names are too long
-//    - Cut off in browser
-//    - Wrap in preview?
+//  - Finish Arrow navigation
+//  - Doubleclick triggers when using arrows at ends of list
 //  - Optimize this mess
+//  - Add ability to stop connecting to server, use pog circle
 
 // Follow pointer, let scrollOffset be it's own thing -> will look more fluid; fix the sync issue?
 
