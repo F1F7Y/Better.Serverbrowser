@@ -11,14 +11,13 @@ Better.serverbrowser is a mod for northstar aiming to improve the serverbrowser 
 1. The final path should be: `Titanfall2/R2Northstar/mods/Better.serverbrowser`
 
 You can disable the mod by clicking on it in the mods menu
+## Contributors
+- Fifty#8113
+- Meelo#6036
 
 ## Known issues
-- Slider isn't finished
-  - Yes
-  - I'd need a getter func for pointer position or relative movement
 - Latency
   - I'm waiting for it to be implemented
-- Resolutions other than 1080p break some UI
 
 ## FAQ
 - Will this be incorporated into northstar?
