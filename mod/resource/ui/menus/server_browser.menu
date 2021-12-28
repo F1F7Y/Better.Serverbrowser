@@ -76,7 +76,7 @@ resource/ui/menus/mods_browse.menu
 			image					"ui/menu/common/locked_icon"
 			scaleImage				1
 			wide 					48
-			tall					48
+			tall					44
 
 			pin_to_sibling				RowButtonsAnchor
 			pin_corner_to_sibling		TOP_LEFT
@@ -89,9 +89,9 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
+			wide 					44
+			tall					44
+			xpos 94
 			ypos 200
 
 			pin_to_sibling			BtnServer1
@@ -104,10 +104,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 240
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 239
 
 			pin_to_sibling			BtnServer2
 			pin_corner_to_sibling	TOP_LEFT
@@ -119,10 +119,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 280
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 278
 
 			pin_to_sibling			BtnServer3
 			pin_corner_to_sibling	TOP_LEFT
@@ -134,10 +134,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 320
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 317
 
 			pin_to_sibling			BtnServer4
 			pin_corner_to_sibling	TOP_LEFT
@@ -149,10 +149,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 360
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 356
 
 			pin_to_sibling			BtnServer5
 			pin_corner_to_sibling	TOP_LEFT
@@ -164,10 +164,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 400
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 395
 
 			pin_to_sibling			BtnServer6
 			pin_corner_to_sibling	TOP_LEFT
@@ -179,10 +179,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 440
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 434
 
 			pin_to_sibling			BtnServer7
 			pin_corner_to_sibling	TOP_LEFT
@@ -194,10 +194,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 480
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 473
 
 			pin_to_sibling			BtnServer8
 			pin_corner_to_sibling	TOP_LEFT
@@ -209,10 +209,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 520
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 512
 
 			pin_to_sibling			BtnServer9
 			pin_corner_to_sibling	TOP_LEFT
@@ -224,10 +224,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 560
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 551
 
 			pin_to_sibling			BtnServer10
 			pin_corner_to_sibling	TOP_LEFT
@@ -239,10 +239,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 600
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 590
 
 			pin_to_sibling			BtnServer11
 			pin_corner_to_sibling	TOP_LEFT
@@ -254,10 +254,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 640
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 629
 
 			pin_to_sibling			BtnServer12
 			pin_corner_to_sibling	TOP_LEFT
@@ -269,10 +269,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 680
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 668
 
 			pin_to_sibling			BtnServer13
 			pin_corner_to_sibling	TOP_LEFT
@@ -284,10 +284,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 720
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 707
 
 			pin_to_sibling			BtnServer14
 			pin_corner_to_sibling	TOP_LEFT
@@ -299,10 +299,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 760
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 746
 
 			pin_to_sibling			BtnServer15
 			pin_corner_to_sibling	TOP_LEFT
