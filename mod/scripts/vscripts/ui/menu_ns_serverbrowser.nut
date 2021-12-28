@@ -74,6 +74,7 @@ struct {
 	float serverSelectedTime = 0
 	float serverSelectedTimeLast = 0
 	//array<string> serverButtons
+	int serverButtonFocusedID = 0
 } file
 
 
@@ -240,6 +241,7 @@ void function InitServerBrowserMenu()
 	foreach ( var button in GetElementsByClassname( GetMenu( "ServerBrowserMenu" ), "ServerButton" ) )
 	{
 		AddButtonEventHandler( button, UIE_CLICK, OnServerFocused )
+		AddButtonEventHandler( button, UIE_GET_FOCUS, OnServerButtonFocused )
 		Hud_SetWidth( button , width )
 	}
 
@@ -266,6 +268,7 @@ void function InitServerBrowserMenu()
 	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideFull"), UIE_CLICK, FilterAndUpdateList )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideEmpty"), UIE_CLICK, FilterAndUpdateList )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideProtected"), UIE_CLICK, FilterAndUpdateList )
+	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnSearchLabel"), UIE_CLICK, FilterAndUpdateList )
 
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerDescription"), UIE_CLICK, ShowServerDescription )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerMods"), UIE_CLICK, ShowServerMods )
@@ -318,9 +321,28 @@ void function OnCloseServerBrowserMenu()
 {
 	DeregisterButtonPressedCallback(MOUSE_WHEEL_UP , OnScrollUp)
 	DeregisterButtonPressedCallback(MOUSE_WHEEL_DOWN , OnScrollDown)
-	DeregisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
-	//DeregisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
-	//DeregisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
+	//DeregisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
+	DeregisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
+	DeregisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
+}
+
+void function OnKeyUpArrowSelected( var button )
+{
+	if ( file.serverButtonFocusedID != 0) return
+	file.scrollOffset -= 1
+	if (file.scrollOffset < 0) file.scrollOffset = 0
+	UpdateShownPage()
+	UpdateListSliderPosition( serversArrayFiltered.len() )
+}
+
+void function OnKeyDownArrowSelected( var button )
+{
+	if ( file.serverButtonFocusedID != 14) return
+	if (serversArrayFiltered.len() <= 15) return
+	file.scrollOffset += 1
+	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len()) file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
+	UpdateShownPage()
+	UpdateListSliderPosition( serversArrayFiltered.len() )
 }
 
 
@@ -447,9 +469,9 @@ void function OnServerBrowserMenuOpened()
 	// Scroll wheel scrolling is fucky af
 	RegisterButtonPressedCallback(MOUSE_WHEEL_UP , OnScrollUp)
 	RegisterButtonPressedCallback(MOUSE_WHEEL_DOWN , OnScrollDown)
-	RegisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
-	//RegisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
-	//RegisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
+	//RegisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
+	RegisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
+	RegisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
 }
 
 
@@ -802,6 +824,11 @@ void function UpdateShownPage()
 	UpdateListSliderHeight( float( serversArrayFiltered.len() ) )
 }
 
+void function OnServerButtonFocused( var button )
+{
+	int scriptID = int ( Hud_GetScriptID( button ) )
+	file.serverButtonFocusedID = scriptID
+}
 
 void function OnServerFocused( var button )
 {
