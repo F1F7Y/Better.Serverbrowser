@@ -230,6 +230,7 @@ void function InitServerBrowserMenu()
 
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnFiltersClear"), UIE_CLICK, OnBtnFiltersClear_Activate )
 
+
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerNameTab"), UIE_CLICK, SortServerListByName )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerPlayersTab"), UIE_CLICK, SortServerListByPlayers )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerMapTab"), UIE_CLICK, SortServerListByMap )
@@ -243,6 +244,8 @@ void function InitServerBrowserMenu()
 	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideEmpty"), UIE_CLICK, FilterAndUpdateList )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideProtected"), UIE_CLICK, FilterAndUpdateList )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnSearchLabel"), UIE_CLICK, FilterAndUpdateList )
+
+	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerSearch"), UIE_CHANGE, FilterAndUpdateList )
 
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerDescription"), UIE_CLICK, ShowServerDescription )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerMods"), UIE_CLICK, ShowServerMods )
@@ -630,7 +633,7 @@ void function FilterAndUpdateList( var n )
 			printt( "How the f did you get here" )
 	}
 
-	Hud_SetFocused( Hud_GetChild( file.menu, "BtnServer1" ) )
+	//Hud_SetFocused( Hud_GetChild( file.menu, "BtnServer1" ) )
 }
 
 
