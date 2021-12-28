@@ -133,32 +133,6 @@ void function SliderBarUpdate()
 }
 
 
-// string.find() works like 10% of the time
-// https://www.csestack.org/implement-strstr-function-in-c/
-bool function strstr(string str, string strSub)
-{
-    int i = 0
-		int j = 0
-    int nTemp = i
-    int nStrLen = str.len()
-    int nStrSubLen = strSub.len()
-    for(i = 0; i < nStrLen - nStrSubLen; i++)
-    {
-        nTemp = i
-        for(j = 0; j < nStrSubLen; j++)
-        {
-
-            if ( str [ nTemp ] == strSub[ j ] )
-            {
-                if ( j == nStrSubLen - 1 ) return true
-                nTemp++
-            }
-            else
-                break
-        }
-    }
-    return false
-}
 
 bool function floatCompareInRange(float arg1, float arg2, float tolerance)
 {
@@ -213,7 +187,7 @@ void function InitServerBrowserMenu()
 	//UpdateServerInfoBasedOnRes()
 
 
-	filterArguments.filterMaps = GetPrivateMatchMaps()
+	filterArguments.filterMaps.extend(GetPrivateMatchMaps())
 	filterArguments.filterMaps.insert(0, "SWITCH_ANY")
 	filterArguments.filterMaps.append("mp_lobby")
 
@@ -328,19 +302,27 @@ void function OnCloseServerBrowserMenu()
 
 void function OnKeyUpArrowSelected( var button )
 {
+	DisplayFocusedServerInfo(file.serverButtonFocusedID)
+
 	if ( file.serverButtonFocusedID != 0) return
 	file.scrollOffset -= 1
 	if (file.scrollOffset < 0) file.scrollOffset = 0
+
+		//printt("Up arrow ", scriptID)
+
 	UpdateShownPage()
 	UpdateListSliderPosition( serversArrayFiltered.len() )
 }
 
 void function OnKeyDownArrowSelected( var button )
 {
+	DisplayFocusedServerInfo(file.serverButtonFocusedID)
+
 	if ( file.serverButtonFocusedID != 14) return
-	if (serversArrayFiltered.len() <= 15) return
 	file.scrollOffset += 1
 	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len()) file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
+		//printt("Down arrow ", scriptID)
+
 	UpdateShownPage()
 	UpdateListSliderPosition( serversArrayFiltered.len() )
 }
@@ -348,7 +330,6 @@ void function OnKeyDownArrowSelected( var button )
 
 void function OnDownArrowSelected( var button )
 {
-	if (serversArrayFiltered.len() <= 15) return
 	file.scrollOffset += 1
 	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len()) file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
 	UpdateShownPage()
@@ -648,6 +629,8 @@ void function FilterAndUpdateList( var n )
 		default:
 			printt( "How the f did you get here" )
 	}
+
+	Hud_SetFocused( Hud_GetChild( file.menu, "BtnServer1" ) )
 }
 
 
@@ -679,6 +662,7 @@ void function WaitForServerListRequest()
 	Hud_SetVisible( Hud_GetChild( menu, "LabelDescription" ), false )
 	Hud_SetVisible( Hud_GetChild( menu, "LabelMods" ), false )
 	Hud_SetVisible( Hud_GetChild( menu, "NextMapImage" ), false )
+	Hud_SetVisible( Hud_GetChild( menu, "NextMapBack" ), false )
 	Hud_SetVisible( Hud_GetChild( menu, "NextMapName" ), false )
 	Hud_SetVisible( Hud_GetChild( menu, "NextModeIcon" ), false )
 	Hud_SetVisible( Hud_GetChild( menu, "NextGameModeName" ), false )
@@ -732,7 +716,7 @@ void function FilterServerList()
 				string sName = tempServer.serverName.tolower()
 				string sTerm = filterArguments.searchTerm.tolower()
 
-				if ( strstr(sName, sTerm) )
+				if ( sName.find(sTerm) != null)
 				{
 					if (filterArguments.filterMap != "SWITCH_ANY" && filterArguments.filterMap == tempServer.serverMap)
 					{
@@ -832,10 +816,7 @@ void function OnServerButtonFocused( var button )
 
 void function OnServerFocused( var button )
 {
-	if ( NSIsRequestingServerList() || NSGetServerCount() == 0 || file.serverListRequestFailed )
-		return
-
-	var menu = GetMenu( "ServerBrowserMenu" )
+	DisplayFocusedServerInfo(int ( Hud_GetScriptID( button ) ))
 
 	file.focusedServerIndex = serversArrayFiltered[ file.scrollOffset + int ( Hud_GetScriptID( button ) ) ].serverIndex
 	int serverIndex = file.scrollOffset + int ( Hud_GetScriptID( button ) )
@@ -849,8 +830,25 @@ void function OnServerFocused( var button )
 	file.serverSelectedTimeLast = file.serverSelectedTime
 	file.serverSelectedTime = Time()
 
-	if ((file.serverSelectedTime - file.serverSelectedTimeLast < DOUBLE_CLICK_TIME_MS) && sameServer)
+	if ((file.serverSelectedTime - file.serverSelectedTimeLast < DOUBLE_CLICK_TIME_MS) && sameServer && ( serverIndex >= 0 && serverIndex <= 14 ) )
 		OnServerSelected(0)
+}
+
+void function DisplayFocusedServerInfo( int scriptID )
+{
+	printt( scriptID )
+	if ( scriptID == 999 ) return
+
+
+	if ( NSIsRequestingServerList() || NSGetServerCount() == 0 || file.serverListRequestFailed )
+		return
+
+	var menu = GetMenu( "ServerBrowserMenu" )
+
+	file.focusedServerIndex = serversArrayFiltered[ file.scrollOffset + scriptID ].serverIndex
+	int serverIndex = file.scrollOffset + scriptID
+
+
 
 
 	Hud_SetVisible( Hud_GetChild( menu, "BtnServerDescription" ), true )
@@ -866,6 +864,7 @@ void function OnServerFocused( var button )
 	// map name/image/server name
 	string map = serversArrayFiltered[ serverIndex ].serverMap
 	Hud_SetVisible( Hud_GetChild( menu, "NextMapImage" ), true )
+	Hud_SetVisible( Hud_GetChild( menu, "NextMapBack" ), true )
 	RuiSetImage( Hud_GetRui( Hud_GetChild( menu, "NextMapImage" ) ), "basicImage", GetMapImageForMapName( map ) )
 	Hud_SetVisible( Hud_GetChild( menu, "NextMapName" ), true )
 	Hud_SetText( Hud_GetChild( menu, "NextMapName" ), GetMapDisplayName( map ) )
@@ -883,7 +882,6 @@ void function OnServerFocused( var button )
 	else
 		Hud_SetText( Hud_GetChild( menu, "NextGameModeName" ), "#NS_SERVERBROWSER_UNKNOWNMODE" )
 }
-
 
 string function FillInServerModsLabel( int server )
 {

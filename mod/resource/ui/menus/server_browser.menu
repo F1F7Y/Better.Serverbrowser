@@ -319,9 +319,13 @@ resource/ui/menus/mods_browse.menu
 			xpos -4
 			ypos -1
 
+			scriptID		999
+
 			pin_to_sibling				BtnServerPasswordProtectedTab
 			pin_corner_to_sibling		TOP_LEFT
 			pin_to_sibling_corner		TOP_RIGHT
+			navDown						BtnServer1
+			navRight 					BtnServerPlayersTab
 		}
 
 		BtnServerName0
@@ -560,9 +564,14 @@ resource/ui/menus/mods_browse.menu
 			wide 104
 			xpos 4
 
+			scriptID		999
+
 			pin_to_sibling				BtnServerNameTab
 			pin_corner_to_sibling		TOP_LEFT
 			pin_to_sibling_corner		TOP_RIGHT
+			navDown						BtnServer1
+			navLeft 		BtnServerNameTab
+			navRight 		BtnServerMapTab
 		}
 
 		BtnServerPlayers1
@@ -786,9 +795,14 @@ resource/ui/menus/mods_browse.menu
 			wide 										140
 			xpos 										4
 
+			scriptID		999
+
 			pin_to_sibling					BtnServerPlayersTab
 			pin_corner_to_sibling		TOP_LEFT
 			pin_to_sibling_corner		TOP_RIGHT
+			navDown						BtnServer1
+			navLeft BtnServerPlayersTab
+			navRight BtnServerGamemodeTab
 		}
 
 		BtnServerMap1
@@ -1011,9 +1025,14 @@ resource/ui/menus/mods_browse.menu
 			wide 										150
 			xpos 										4
 
+			scriptID		999
+
 			pin_to_sibling					BtnServerMapTab
 			pin_corner_to_sibling		TOP_LEFT
 			pin_to_sibling_corner		TOP_RIGHT
+			navDown						BtnServer1
+			navLeft BtnServerMapTab
+			navRight BtnServerLatencyTab
 		}
 
 		BtnServerGamemode1
@@ -1236,9 +1255,14 @@ resource/ui/menus/mods_browse.menu
 			wide 										110
 			xpos 										4
 
+			scriptID		999
+
 			pin_to_sibling					BtnServerGamemodeTab
 			pin_corner_to_sibling		TOP_LEFT
 			pin_to_sibling_corner		TOP_RIGHT
+			navDown						BtnServer1
+			navLeft BtnServerGamemodeTab
+			navLeft BtnServerJoin
 		}
 
 		BtnServerLatency1
@@ -1573,6 +1597,7 @@ resource/ui/menus/mods_browse.menu
 			pin_to_sibling				ButtonRowAnchor
 			pin_corner_to_sibling		TOP_LEFT
 			pin_to_sibling_corner		TOP_LEFT
+			navUp						BtnServerNameTab
 			navRight 				BtnServerJoin
 		}
 		BtnServer2
@@ -2170,7 +2195,7 @@ resource/ui/menus/mods_browse.menu
 			tall					288
 			wide 					500
 			rui 					"ui/control_options_description.rpak"
-			wrap					1
+			visible 0
 			zpos					1
 
 			pin_to_sibling				ServerDetailsPanel
@@ -2294,6 +2319,8 @@ resource/ui/menus/mods_browse.menu
 			xpos -17
 			ypos -57
 			zpos 999
+
+			scriptID		999
 
 			pin_to_sibling			ServerDetailsPanel
 			pin_corner_to_sibling	TOP_RIGHT
