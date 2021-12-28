@@ -1,7 +1,7 @@
 {
 	"Name" : "Better.Serverbrowser",
 	"Description" : "Improves the northstar serverbrowser\n\nReport issues at: https://github.com/F1F7Y/Better.Serverbrowser/issues",
-	"Version": "1.1.3",
+	"Version": "1.1.2",
 	"LoadPriority": 1,
 	"ConVars": [
 		{
@@ -14,14 +14,6 @@
 		},
 		{
 			"Name": "filter_hide_protected",
-			"DefaultValue": "0"
-		},
-		{
-			"Name": "filter_map",
-			"DefaultValue": "0"
-		},
-		{
-			"Name": "filter_gamemode",
 			"DefaultValue": "0"
 		}
 	]
