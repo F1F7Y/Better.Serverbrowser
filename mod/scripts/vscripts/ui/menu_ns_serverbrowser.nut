@@ -1,11 +1,30 @@
 global function AddNorthstarServerBrowserMenu
 global function ThreadedAuthAndConnectToServer
 
+global function UpdateMouseDeltaBuffer
+
 // Stop peeking
 // Code is a mess rn, will clean up
+// TODO:
+//  - PasswordProtected icons don't snap to buttons -> slight missalignment
+//  - Finish ScrollBar
+//  - Add Arrow navigation
+//  - Labels not tall enough -> g;y get cut off
+//  - Some server names are too long
+//    - Cut off in browser
+//    - Wrap in preview?
+//  - Optimize this mess
+
+// Follow pointer, let scrollOffset be it's own thing -> will look more fluid; fix the sync issue?
 
 const int BUTTONS_PER_PAGE = 15
-const int DOUBLE_CLICK_TIME_MS = 40
+const int DOUBLE_CLICK_TIME_MS = 30
+
+
+struct {
+	int deltaX = 0
+	int deltaY = 0
+} mouseDeltaBuffer
 
 struct {
 	bool hideFull = false
@@ -13,6 +32,10 @@ struct {
 	bool hideProtected = false
 	bool useSearch = false
 	string searchTerm
+	array<string> filterMaps
+	string filterMap
+	array<string> filterGamemodes
+	string filterGamemode
 } filterArguments
 
 struct {
@@ -22,6 +45,8 @@ struct {
 	bool serverMap = true
 	bool serverGamemode = true
 	bool serverLatency = true
+	// 0 = none; 1 = name; 2 = players; 3 = map; 5 = gamemode; 6 = latency
+	int sortingBy = 0
 } filterDirection
 
 struct serverStruct {
@@ -47,6 +72,57 @@ struct {
 	float serverSelectedTimeLast = 0
 	//array<string> serverButtons
 } file
+
+
+
+void function UpdateMouseDeltaBuffer(int x, int y)
+{
+	mouseDeltaBuffer.deltaX += x
+	mouseDeltaBuffer.deltaY += y
+
+	SliderBarUpdate()
+}
+
+void function DecreaseMouseDeltaBuffer(int x, int y)
+{
+	mouseDeltaBuffer.deltaX -= x
+	mouseDeltaBuffer.deltaY -= y
+}
+
+void function FlushMouseDeltaBuffer()
+{
+	mouseDeltaBuffer.deltaX = 0
+	mouseDeltaBuffer.deltaY = 0
+}
+
+// Math doesn't check out
+void function SliderBarUpdate()
+{
+	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
+
+
+	float useableSpace = (562.0 * (GetScreenSize()[1] / 1080.0) - Hud_GetHeight( sliderPanel ))
+
+	float jumpSize = useableSpace / serversArrayFiltered.len()
+
+	//if ( mouseDeltaBuffer.deltaY < 0 ) mouseDeltaBuffer.deltaY *= -1
+
+	if ( mouseDeltaBuffer.deltaY < -jumpSize )
+	{
+		OnUpArrowSelected(0)
+		printt("Scrolled up by: ", mouseDeltaBuffer.deltaY, "; Will increase delta by: ", -jumpSize, " to: ", mouseDeltaBuffer.deltaY + jumpSize)
+		DecreaseMouseDeltaBuffer(0, -int(jumpSize) )
+		//FlushMouseDeltaBuffer()
+	}
+	else if ( mouseDeltaBuffer.deltaY > jumpSize )
+	{
+		OnDownArrowSelected(0)
+		printt("Scrolled down by: ", mouseDeltaBuffer.deltaY, "; Will decrease delta by: ", jumpSize, " to: ", mouseDeltaBuffer.deltaY - jumpSize)
+		DecreaseMouseDeltaBuffer(0, int(jumpSize) )
+		//FlushMouseDeltaBuffer()
+	}
+
+}
 
 // string.find() works like 10% of the time
 // https://www.csestack.org/implement-strstr-function-in-c/
@@ -76,6 +152,40 @@ bool function strstr(string str, string strSub)
 }
 
 
+array<string> function GetNorthstarGamemodes()
+{
+	array<string> modes
+	modes.append( "#PL_gg" )
+	modes.append( "#PL_tt" )
+	modes.append( "#PL_inf" )
+	modes.append( "#PL_hs" )
+	modes.append( "#PL_fw" )
+	modes.append( "#PL_kr" )
+	modes.append( "#PL_fastball" )
+	modes.append( "#PL_hardpoint" )
+	modes.append( "#PL_last_titan_standing" )
+	modes.append( "#PL_attrition" )
+	modes.append( "#PL_pilot_hunter" )
+	modes.append( "#PL_aitdm" )
+	modes.append( "#PL_coliseum" )
+	modes.append( "#PL_pilot_skirmish" )
+	modes.append( "#PL_capture_the_flag" )
+	modes.append( "#PL_ffa" )
+	modes.append( "#PL_free_agents" )
+	modes.append( "#PL_speedball" )
+	modes.append( "#PL_marked_for_death" )
+	modes.append( "#PL_titan_brawl" )
+	modes.append( "#PL_fd" )
+
+	return modes
+}
+
+string function GetStringInArrayByIndex( array<string> arr, int index )
+{
+	if ( index > arr.len() - 1 ) return "jokes on you"
+	return arr[ index ]
+}
+
 void function AddNorthstarServerBrowserMenu()
 {
 	AddMenu( "ServerBrowserMenu", $"resource/ui/menus/server_browser.menu", InitServerBrowserMenu, "#MENU_SERVER_BROWSER" )
@@ -84,6 +194,21 @@ void function AddNorthstarServerBrowserMenu()
 void function InitServerBrowserMenu()
 {
 	file.menu = GetMenu( "ServerBrowserMenu" )
+
+	filterArguments.filterMaps = GetPrivateMatchMaps()
+	filterArguments.filterMaps.insert(0, "Any")
+	filterArguments.filterMaps.append("mp_lobby")
+
+	foreach ( int enum_, string map in filterArguments.filterMaps )
+		Hud_DialogList_AddListItem( Hud_GetChild( file.menu, "SwtBtnSelectMap" ) , map, string( enum_ ) )
+
+
+	filterArguments.filterGamemodes = GetNorthstarGamemodes()
+	filterArguments.filterGamemodes.insert(0, "Any")
+
+	// GetGameModeDisplayName( mode ) requires server talk even if it can be entirely client side
+	foreach ( int enum_, string mode in filterArguments.filterGamemodes )
+		Hud_DialogList_AddListItem( Hud_GetChild( file.menu, "SwtBtnSelectGamemode" ) , mode, string( enum_ ) )
 
 	//AddMenuEventHandler( file.menu, eUIEvent.MENU_OPEN, OnOpenServerBrowserMenu )
 	AddMenuEventHandler( file.menu, eUIEvent.MENU_CLOSE, OnCloseServerBrowserMenu )
@@ -100,6 +225,8 @@ void function InitServerBrowserMenu()
 		AddButtonEventHandler( button, UIE_CLICK, OnServerFocused )
 		//file.serverButtons.append(Hud_GetHudName(button))
 	}
+
+
 
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerJoin"), UIE_CLICK, OnServerSelected )
 
@@ -133,10 +260,10 @@ void function InitServerBrowserMenu()
 	Hud_SetText( Hud_GetChild( file.menu, "BtnServerMods"), "")
 
 	// Unfinished features
-	Hud_SetLocked( Hud_GetChild( file.menu, "BtnServerListSlider" ), true )
+	//Hud_SetLocked( Hud_GetChild( file.menu, "BtnServerListSlider" ), true )
 	Hud_SetLocked( Hud_GetChild( file.menu, "BtnServerLatencyTab" ), true )
-	Hud_SetLocked( Hud_GetChild( file.menu, "SwtBtnSelectMap" ), true )
-	Hud_SetLocked( Hud_GetChild( file.menu, "SwtBtnSelectGamemode" ), true )
+	//Hud_SetLocked( Hud_GetChild( file.menu, "SwtBtnSelectMap" ), true )
+	//Hud_SetLocked( Hud_GetChild( file.menu, "SwtBtnSelectGamemode" ), true )
 
 	// Rui is a pain
 	RuiSetString( Hud_GetRui( Hud_GetChild( file.menu, "SwtBtnHideFull")), "buttonText", "")
@@ -198,6 +325,7 @@ void function UpdateListSliderHeight( float servers )
 {
 	var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
 	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
+	var movementCapture = Hud_GetChild( file.menu , "MouseMovementCapture" )
 
 	float maxHeight = 562.0 * (GetScreenSize()[1] / 1080.0)
 
@@ -207,16 +335,18 @@ void function UpdateListSliderHeight( float servers )
 
 	Hud_SetHeight( sliderButton , height )
 	Hud_SetHeight( sliderPanel , height )
+	Hud_SetHeight( movementCapture , height )
 }
 
 
-void function UpdateListSliderPosition( int servers)
+void function UpdateListSliderPosition( int servers )
 {
 	var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
 	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
+	var movementCapture = Hud_GetChild( file.menu , "MouseMovementCapture" )
 
 	float minYPos = -40.0 * (GetScreenSize()[1] / 1080.0)
-	float useableSpace = (562.0 * (GetScreenSize()[1] / 1080.0) - Hud_GetHeight( sliderButton ))
+	float useableSpace = (562.0 * (GetScreenSize()[1] / 1080.0) - Hud_GetHeight( sliderPanel ))
 
 	float jump = minYPos - (useableSpace / ( float( servers ) - 15.0 ) * file.scrollOffset)
 
@@ -224,8 +354,9 @@ void function UpdateListSliderPosition( int servers)
 
 	if ( jump > minYPos ) jump = minYPos
 
-	Hud_SetPos( sliderButton , 4, jump )
-	Hud_SetPos( sliderPanel , 4, jump )
+	Hud_SetPos( sliderButton , 2, jump )
+	Hud_SetPos( sliderPanel , 2, jump )
+	Hud_SetPos( movementCapture , 2, jump )
 }
 
 
@@ -249,6 +380,8 @@ void function OnBtnFiltersClear_Activate( var button )
 	SetConVarBool( "filter_hide_empty", false )
 	SetConVarBool( "filter_hide_full", false )
 	SetConVarBool( "filter_hide_protected", false )
+	SetConVarInt( "filter_map", 0 )
+	SetConVarInt( "filter_gamemode", 0 )
 
 	FilterAndUpdateList(0)
 }
@@ -280,6 +413,7 @@ void function OnServerBrowserMenuOpened()
 
 void function SortServerListByName( var button )
 {
+	filterDirection.sortingBy = 1
 
 	int n = serversArrayFiltered.len() - 1
 
@@ -305,6 +439,7 @@ void function SortServerListByName( var button )
 
 void function SortServerListByPlayers( var button )
 {
+	filterDirection.sortingBy = 2
 
 	int n = serversArrayFiltered.len() - 1
 
@@ -330,6 +465,7 @@ void function SortServerListByPlayers( var button )
 
 void function SortServerListByMap( var button )
 {
+	filterDirection.sortingBy = 3
 
 	int n = serversArrayFiltered.len() - 1
 
@@ -355,6 +491,7 @@ void function SortServerListByMap( var button )
 
 void function SortServerListByGamemode( var button )
 {
+	filterDirection.sortingBy = 5
 
 	int n = serversArrayFiltered.len() - 1
 
@@ -380,6 +517,7 @@ void function SortServerListByGamemode( var button )
 
 void function SortServerListByLatency( var button )
 {
+	filterDirection.sortingBy = 5
 
 	int n = serversArrayFiltered.len() - 1
 
@@ -403,16 +541,47 @@ void function SortServerListByLatency( var button )
 	UpdateShownPage()
 }
 
-void function FilterAndUpdateList( var n)
+void function FilterAndUpdateList( var n )
 {
 	filterArguments.searchTerm = Hud_GetUTF8Text( Hud_GetChild( file.menu, "BtnServerSearch" ) )
 	if ( filterArguments.searchTerm == "" ) filterArguments.useSearch = false else filterArguments.useSearch = true
+	filterArguments.filterMap = GetStringInArrayByIndex( filterArguments.filterMaps, GetConVarInt( "filter_map" ) )
+	filterArguments.filterGamemode = GetStringInArrayByIndex( filterArguments.filterGamemodes, GetConVarInt( "filter_gamemode" ) )
 	filterArguments.hideEmpty = GetConVarBool( "filter_hide_empty" )
 	filterArguments.hideFull = GetConVarBool( "filter_hide_full" )
 	filterArguments.hideProtected = GetConVarBool( "filter_hide_protected" )
 	file.scrollOffset = 0
+
 	FilterServerList()
-	UpdateShownPage()
+
+	switch ( filterDirection.sortingBy )
+	{
+		case 0:
+			UpdateShownPage()
+			break
+		case 1:
+			filterDirection.serverName = !filterDirection.serverName
+			SortServerListByName(0)
+			break
+		case 2:
+			filterDirection.serverPlayers = !filterDirection.serverPlayers
+			SortServerListByPlayers(0)
+			break
+		case 3:
+			filterDirection.serverMap = !filterDirection.serverMap
+			SortServerListByMap(0)
+			break
+		case 5:	// 4 skipped cause it doesn't work respawn pls fix
+			filterDirection.serverGamemode = !filterDirection.serverGamemode
+			SortServerListByGamemode(0)
+			break
+		case 6:
+			filterDirection.serverLatency = !filterDirection.serverLatency
+			SortServerListByLatency(0)
+			break
+		default:
+			printt( "How the f did you get here" )
+	}
 }
 
 
@@ -443,7 +612,6 @@ void function WaitForServerListRequest()
 	Hud_SetVisible( Hud_GetChild( menu, "LabelDescription" ), false )
 	Hud_SetVisible( Hud_GetChild( menu, "LabelMods" ), false )
 	Hud_SetVisible( Hud_GetChild( menu, "NextMapImage" ), false )
-	Hud_SetVisible( Hud_GetChild( menu, "NextMapBack" ), false )
 	Hud_SetVisible( Hud_GetChild( menu, "NextMapName" ), false )
 	Hud_SetVisible( Hud_GetChild( menu, "NextModeIcon" ), false )
 	Hud_SetVisible( Hud_GetChild( menu, "NextGameModeName" ), false )
@@ -490,34 +658,49 @@ void function FilterServerList()
 
 
 		// Branchless programming ;)
-		if (!(filterArguments.hideEmpty && tempServer.serverPlayers == 0))
+		if (!(filterArguments.hideEmpty && tempServer.serverPlayers == 0) && !(filterArguments.hideFull && tempServer.serverPlayers == tempServer.serverPlayersMax) && !(filterArguments.hideProtected && tempServer.serverProtected))
 		{
-			if (!(filterArguments.hideFull && tempServer.serverPlayers == tempServer.serverPlayersMax))
+			if ( filterArguments.useSearch )
 			{
-				if (!(filterArguments.hideProtected && tempServer.serverProtected))
-				{
-					if ( filterArguments.useSearch )
-					{
-						string sName = tempServer.serverName.tolower()
-						string sTerm = filterArguments.searchTerm.tolower()
+				string sName = tempServer.serverName.tolower()
+				string sTerm = filterArguments.searchTerm.tolower()
 
-						if ( strstr(sName, sTerm) )
-						{
-							serversArrayFiltered.append( tempServer )
-							printt( sTerm, " is in ", sName)
-						}
-						else
-						{
-							printt( sTerm, "isn't in ", sName)
-						}
-					}
-					else
+				if ( strstr(sName, sTerm) )
+				{
+					if (filterArguments.filterMap != "Any" && filterArguments.filterMap == tempServer.serverMap)
 					{
-						serversArrayFiltered.append( tempServer )
+						CheckGamemode( tempServer )
+					}
+					else if (filterArguments.filterMap == "Any")
+					{
+						CheckGamemode( tempServer )
 					}
 				}
 			}
+			else
+			{
+				if (filterArguments.filterMap != "Any" && filterArguments.filterMap == tempServer.serverMap)
+				{
+					CheckGamemode( tempServer )
+				}
+				else if (filterArguments.filterMap == "Any")
+				{
+					CheckGamemode( tempServer )
+				}
+			}
 		}
+	}
+}
+
+void function CheckGamemode( serverStruct t )
+{
+	if (filterArguments.filterGamemode != "Any" && filterArguments.filterGamemode == t.serverGamemode)
+	{
+		serversArrayFiltered.append( t )
+	}
+	else if (filterArguments.filterGamemode == "Any")
+	{
+		serversArrayFiltered.append( t )
 	}
 }
 
@@ -589,7 +772,6 @@ void function OnServerFocused( var button )
 	bool sameServer = false
 	if (file.lastSelectedServer == serverIndex) sameServer = true
 
-	printt(sameServer)
 
 	file.lastSelectedServer = serverIndex
 
@@ -614,7 +796,6 @@ void function OnServerFocused( var button )
 	string map = serversArrayFiltered[ serverIndex ].serverMap
 	Hud_SetVisible( Hud_GetChild( menu, "NextMapImage" ), true )
 	RuiSetImage( Hud_GetRui( Hud_GetChild( menu, "NextMapImage" ) ), "basicImage", GetMapImageForMapName( map ) )
-	Hud_SetVisible( Hud_GetChild( menu, "NextMapBack" ), true )
 	Hud_SetVisible( Hud_GetChild( menu, "NextMapName" ), true )
 	Hud_SetText( Hud_GetChild( menu, "NextMapName" ), GetMapDisplayName( map ) )
 	Hud_SetVisible( Hud_GetChild( menu, "ServerName" ), true )

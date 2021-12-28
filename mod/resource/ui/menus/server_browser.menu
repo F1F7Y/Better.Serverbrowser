@@ -62,7 +62,6 @@ resource/ui/menus/mods_browse.menu
       ypos              807
 		}
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		// PasswordProtected
@@ -315,7 +314,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName				RuiButton
 			InheritProperties		RuiSmallButton
-			labelText 				"#SERVERS_COLUMN"
+			labelText "Servers"
 			wide 600
 			xpos -4
 			ypos -1
@@ -331,7 +330,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName				RuiButton
 			InheritProperties		RuiSmallButton
-			labelText 				"#PLAYERS_COLUMN"
+			labelText "Players"
 			wide 104
 
 			pin_to_sibling				BtnServerNameTab
@@ -555,7 +554,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName							RuiButton
 			InheritProperties				RuiSmallButton
-			labelText 							"#MAP_COLUMN"
+			labelText 							"Map"
 			textAlignment 					center
 			wide 										140
 			xpos 										4
@@ -781,7 +780,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName							RuiButton
 			InheritProperties				RuiSmallButton
-			labelText 							"#GAMEMODE_COLUMN"
+			labelText 							"Gamemode"
 			wide 										150
 			xpos 										4
 
@@ -1006,7 +1005,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName							RuiButton
 			InheritProperties				RuiSmallButton
-			labelText 							"#LATENCY_COLUMN"
+			labelText 							"Latency"
 			wide 										110
 			xpos 										4
 
@@ -1553,15 +1552,15 @@ resource/ui/menus/mods_browse.menu
 		//labelText						"A"
 		wide 40
 		tall 40
-		xpos 4
+		xpos 2
 		ypos 2
 
 		image           "vgui/hud/white"
 		drawColor       "255 255 255 128"
 
-		pin_to_sibling					BtnServerLatencyTab
-		pin_corner_to_sibling		TOP_LEFT
-		pin_to_sibling_corner		TOP_RIGHT
+		pin_to_sibling					ServerDetailsPanel
+		pin_corner_to_sibling		TOP_RIGHT
+		pin_to_sibling_corner		TOP_LEFT
 	}
 
 	BtnServerListUpArrowPanel
@@ -1569,7 +1568,7 @@ resource/ui/menus/mods_browse.menu
 		ControlName				RuiPanel
 		wide 40
 		tall 40
-		xpos 4
+		xpos 2
 		ypos 2
 
 		rui 					"ui/control_options_description.rpak"
@@ -1577,9 +1576,9 @@ resource/ui/menus/mods_browse.menu
 		visible					1
 		zpos					-1
 
-		pin_to_sibling					BtnServerLatencyTab
-		pin_corner_to_sibling		TOP_LEFT
-		pin_to_sibling_corner		TOP_RIGHT
+		pin_to_sibling					ServerDetailsPanel
+		pin_corner_to_sibling		TOP_RIGHT
+		pin_to_sibling_corner		TOP_LEFT
 	}
 
 	BtnServerListDownArrow
@@ -1589,15 +1588,15 @@ resource/ui/menus/mods_browse.menu
 		//labelText						"V"
 		wide 40
 		tall 40
-		xpos 4
+		xpos 2
 		ypos -604
 
 		image           "vgui/hud/white"
 		drawColor       "255 255 255 128"
 
-		pin_to_sibling					BtnServerLatencyTab
-		pin_corner_to_sibling		TOP_LEFT
-		pin_to_sibling_corner		TOP_RIGHT
+		pin_to_sibling					ServerDetailsPanel
+		pin_corner_to_sibling		TOP_RIGHT
+		pin_to_sibling_corner		TOP_LEFT
 	}
 
 	BtnServerListDownArrowPanel
@@ -1605,7 +1604,7 @@ resource/ui/menus/mods_browse.menu
 		ControlName				RuiPanel
 		wide 40
 		tall 40
-		xpos 4
+		xpos 2
 		ypos -604
 
 		rui 					"ui/control_options_description.rpak"
@@ -1613,9 +1612,9 @@ resource/ui/menus/mods_browse.menu
 		visible					1
 		zpos					-1
 
-		pin_to_sibling					BtnServerLatencyTab
-		pin_corner_to_sibling		TOP_LEFT
-		pin_to_sibling_corner		TOP_RIGHT
+		pin_to_sibling					ServerDetailsPanel
+		pin_corner_to_sibling		TOP_RIGHT
+		pin_to_sibling_corner		TOP_LEFT
 	}
 
 	BtnServerListSlider
@@ -1623,17 +1622,18 @@ resource/ui/menus/mods_browse.menu
 		ControlName					RuiButton
 		InheritProperties		RuiSmallButton
 		//labelText						"V"
-		wide 40
-		tall 562
-		xpos 4
-		ypos -40
+		wide 					40
+		tall 					562
+		xpos 					2
+		ypos 					-40
+		zpos					0
 
 		image           "vgui/hud/white"
 		drawColor       "255 255 255 128"
 
-		pin_to_sibling					BtnServerLatencyTab
-		pin_corner_to_sibling		TOP_LEFT
-		pin_to_sibling_corner		TOP_RIGHT
+		pin_to_sibling					ServerDetailsPanel
+		pin_corner_to_sibling		TOP_RIGHT
+		pin_to_sibling_corner		TOP_LEFT
 	}
 
 	BtnServerListSliderPanel
@@ -1641,7 +1641,7 @@ resource/ui/menus/mods_browse.menu
 		ControlName				RuiPanel
 		wide 40
 		tall 562
-		xpos 4
+		xpos 2
 		ypos -40
 
 		rui 					"ui/control_options_description.rpak"
@@ -1649,10 +1649,37 @@ resource/ui/menus/mods_browse.menu
 		visible					1
 		zpos					-1
 
-		pin_to_sibling					BtnServerLatencyTab
-		pin_corner_to_sibling		TOP_LEFT
-		pin_to_sibling_corner		TOP_RIGHT
+		pin_to_sibling					ServerDetailsPanel
+		pin_corner_to_sibling		TOP_RIGHT
+		pin_to_sibling_corner		TOP_LEFT
 	}
+
+	// sh_menu_models.gnut has a global function which gets called when
+	// left mouse button gets called while hovering and has mouse
+	// deltaX; deltaY which we can yoink for ourselfes
+	MouseMovementCapture
+	{
+			ControlName					CMouseMovementCapturePanel
+			wide 								40
+			tall 								562
+			xpos 								2
+			ypos 								-40
+			zpos								1
+
+			pin_to_sibling					ServerDetailsPanel
+			pin_corner_to_sibling		TOP_RIGHT
+			pin_to_sibling_corner		TOP_LEFT
+	}
+
+	//MouseMovementCaptureaaaaaaa
+	//{
+	//		ControlName					CMouseMovementCapturePanel
+	//		wide 								%100
+	//		tall 								%100
+	//		xpos 								0
+	//		ypos 								0
+	//		zpos								2
+	//}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1678,8 +1705,8 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName					RuiButton
 		InheritProperties		RuiSmallButton
-		labelText			"#SEARCHBAR_LABEL"
-		wide					400
+		labelText			"Search: "
+		wide					500
 		xpos -23
 		ypos -16
 
@@ -1697,9 +1724,9 @@ resource/ui/menus/mods_browse.menu
 		ControlName				TextEntry
 		keyboardTitle			"Search"
 		zpos					100 // This works around input weirdness when the control is constructed by code instead of VGUI blackbox.
-		xpos 					-300
+		xpos 					-400
 		ypos 					-5
-		wide					280
+		wide					380
 		tall					30
 		scriptID				19
 		textHidden				0
@@ -1718,14 +1745,9 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName					RuiButton
 		InheritProperties		SwitchButton
-		labelText						"#MAP_FILTER"
-		wide    						400
-
-
-		list
-		{
-			"Any"	0
-		}
+		labelText						"Map"
+		ConVar							"filter_map"
+		wide    						500
 
 		pin_to_sibling SearchLabel
 		pin_corner_to_sibling		TOP_LEFT
@@ -1736,14 +1758,9 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName					RuiButton
 		InheritProperties		SwitchButton
-		labelText						"#GAMEMODE_FILTER"
-		wide    						400
-
-
-		list
-		{
-			"Any"	0
-		}
+		labelText						"Gamemode"
+		ConVar							"filter_gamemode"
+		wide    						500
 
 		pin_to_sibling SwtBtnSelectMap
 		pin_corner_to_sibling	TOP_LEFT
@@ -1755,9 +1772,9 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName					RuiButton
 		InheritProperties		SwitchButton
-		labelText						"#HIDE_FULL_FILTER"
+		labelText						"Hide Full Servers"
 		ConVar							"filter_hide_full"
-		wide    						400
+		wide    						500
 
 
 		list
@@ -1775,9 +1792,9 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName					RuiButton
 		InheritProperties		SwitchButton
-		labelText						"#HIDE_EMPTY_FILTER"
+		labelText						"Hide Empty Servers"
 		ConVar							"filter_hide_empty"
-		wide    						400
+		wide    						500
 
 
 		list
@@ -1794,9 +1811,9 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName					RuiButton
 		InheritProperties		SwitchButton
-		labelText						"#HIDE_PROT_FILTER"
+		labelText						"Hide Protected Servers"
 		ConVar							"filter_hide_protected"
-		wide    						400
+		wide    						500
 
 		list
 		{
@@ -1813,11 +1830,11 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName							RuiButton
 		InheritProperties				RuiSmallButton
-		labelText				"#CLEAR_FILTERS"
+		labelText				"CLEAR"
 		wide 100
 		xpos		-17
 		ypos 		-57
-		zpos 999
+		zpos 100
 
 		pin_to_sibling			FilterPanel
 		pin_corner_to_sibling	TOP_RIGHT
@@ -1897,7 +1914,6 @@ resource/ui/menus/mods_browse.menu
 			tall					288
 			visible					0
 			scaleImage				1
-			zpos					-1
 
 			rui                     "ui/basic_menu_image.rpak"
 
@@ -1959,26 +1975,12 @@ resource/ui/menus/mods_browse.menu
 			pin_to_sibling_corner	TOP_RIGHT
 		}
 
-		NextMapBack
-		{
-			ControlName				RuiPanel
-			tall					288
-			wide 					500
-			rui 					"ui/control_options_description.rpak"
-			wrap					1
-			zpos					1
-
-			pin_to_sibling				ServerDetailsPanel
-			pin_corner_to_sibling	TOP_LEFT
-			pin_to_sibling_corner	TOP_LEFT
-		}
-
 		ServerName
 		{
 			ControlName				Label
 			ypos					-8
 			xpos					-8
-			zpos 					2
+			zpos 					1
 			wide 					492
 
 			labelText				"Server name"
@@ -2027,7 +2029,7 @@ resource/ui/menus/mods_browse.menu
 		{
 			ControlName							RuiButton
 			InheritProperties				RuiSmallButton
-			labelText				"#JOIN_BUTTON"
+			labelText				"JOIN"
 			wide 80
 			xpos -17
 			ypos -57
