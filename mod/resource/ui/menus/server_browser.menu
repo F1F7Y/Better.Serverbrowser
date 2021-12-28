@@ -75,8 +75,13 @@ resource/ui/menus/mods_browse.menu
 			ControlName				ImagePanel
 			image					"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					48
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 
 			pin_to_sibling				RowButtonsAnchor
 			pin_corner_to_sibling		TOP_LEFT
@@ -89,8 +94,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 200
 
@@ -104,8 +114,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 239
 
@@ -119,8 +134,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 278
 
@@ -134,8 +154,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 317
 
@@ -149,8 +174,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 356
 
@@ -164,8 +194,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 395
 
@@ -179,8 +214,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 434
 
@@ -194,8 +234,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 473
 
@@ -209,8 +254,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 512
 
@@ -224,8 +274,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 551
 
@@ -239,8 +294,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 590
 
@@ -254,8 +314,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 629
 
@@ -269,8 +334,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 668
 
@@ -284,8 +354,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 707
 
@@ -299,8 +374,13 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
+<<<<<<< HEAD
 			wide          44
 			tall          44
+=======
+			wide 					44
+			tall					44
+>>>>>>> 4221a8e7901d83e7882c291cf07636bd996d4e00
 			xpos 94
 			ypos 746
 
