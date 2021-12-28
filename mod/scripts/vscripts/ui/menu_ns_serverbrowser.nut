@@ -21,7 +21,7 @@ global function UpdateMouseDeltaBuffer
 // Follow pointer, let scrollOffset be it's own thing -> will look more fluid; fix the sync issue?
 
 const int BUTTONS_PER_PAGE = 15
-const int DOUBLE_CLICK_TIME_MS = 20 // unsure what the ideal value is
+const float DOUBLE_CLICK_TIME_MS = 0.2 // unsure what the ideal value is
 
 
 struct {
@@ -67,7 +67,7 @@ array<serverStruct> serversArrayFiltered
 
 struct {
 	var menu
-	int lastSelectedServer = 0
+	int lastSelectedServer = 1
 	int focusedServerIndex = 0
 	int scrollOffset = 0
 	bool serverListRequestFailed = false
@@ -75,6 +75,7 @@ struct {
 	float serverSelectedTimeLast = 0
 	//array<string> serverButtons
 	int serverButtonFocusedID = 0
+	bool shouldFocus = true
 } file
 
 
@@ -127,7 +128,6 @@ void function SliderBarUpdate()
 	Hud_SetPos( sliderPanel , 2, newPos )
 	Hud_SetPos( movementCapture , 2, newPos )
 
-	printt("scrollOffset: ", -int( ( (newPos - minYPos) / useableSpace ) * (serversArrayFiltered.len() - 15) ), "max: ", serversArrayFiltered.len() - 15)
 	file.scrollOffset = -int( ( (newPos - minYPos) / useableSpace ) * (serversArrayFiltered.len() - 15) )
 	UpdateShownPage()
 }
@@ -403,8 +403,6 @@ void function UpdateListSliderPosition( int servers )
 	Hud_SetPos( sliderButton , 2, jump )
 	Hud_SetPos( sliderPanel , 2, jump )
 	Hud_SetPos( movementCapture , 2, jump )
-
-	printt("scrollOffset: ", file.scrollOffset)
 }
 
 
@@ -633,7 +631,11 @@ void function FilterAndUpdateList( var n )
 			printt( "How the f did you get here" )
 	}
 
-	//Hud_SetFocused( Hud_GetChild( file.menu, "BtnServer1" ) )
+	if ( file.shouldFocus )
+	{
+		file.shouldFocus = false
+		Hud_SetFocused( Hud_GetChild( file.menu, "BtnServer1" ) )
+	}
 }
 
 
@@ -820,26 +822,10 @@ void function OnServerButtonFocused( var button )
 void function OnServerFocused( var button )
 {
 	DisplayFocusedServerInfo(int ( Hud_GetScriptID( button ) ))
-
-	file.focusedServerIndex = serversArrayFiltered[ file.scrollOffset + int ( Hud_GetScriptID( button ) ) ].serverIndex
-	int serverIndex = file.scrollOffset + int ( Hud_GetScriptID( button ) )
-
-	bool sameServer = false
-	if (file.lastSelectedServer == serverIndex) sameServer = true
-
-
-	file.lastSelectedServer = serverIndex
-
-	file.serverSelectedTimeLast = file.serverSelectedTime
-	file.serverSelectedTime = Time()
-
-	if ((file.serverSelectedTime - file.serverSelectedTimeLast < DOUBLE_CLICK_TIME_MS) && sameServer && ( serverIndex >= 0 && serverIndex <= 14 ) )
-		OnServerSelected(0)
 }
 
 void function DisplayFocusedServerInfo( int scriptID )
 {
-	printt( scriptID )
 	if ( scriptID == 999 ) return
 
 
@@ -850,6 +836,20 @@ void function DisplayFocusedServerInfo( int scriptID )
 
 	file.focusedServerIndex = serversArrayFiltered[ file.scrollOffset + scriptID ].serverIndex
 	int serverIndex = file.scrollOffset + scriptID
+
+	bool sameServer = false
+	if (file.lastSelectedServer == serverIndex) sameServer = true
+
+
+	file.lastSelectedServer = serverIndex
+
+	file.serverSelectedTimeLast = file.serverSelectedTime
+	file.serverSelectedTime = Time()
+
+	printt(file.serverSelectedTime - file.serverSelectedTimeLast,";", file.lastSelectedServer,";", serverIndex, ";",sameServer)
+
+	if ((file.serverSelectedTime - file.serverSelectedTimeLast < DOUBLE_CLICK_TIME_MS) && sameServer )
+		OnServerSelected(0)
 
 
 
