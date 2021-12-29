@@ -813,6 +813,8 @@ void function WaitForServerListRequest()
 		printt("Total players: ", totalPlayers)
 		printt("This message gets shown only on full refresh")
 		printt("---------------------------------------------")
+
+		Hud_SetText( Hud_GetChild( file.menu, "InGamePlayerCount" ), string( totalPlayers ) )
 	}
 }
 
