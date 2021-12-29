@@ -72,6 +72,8 @@ struct {
 	//array<string> serverButtons
 	int serverButtonFocusedID = 0
 	bool shouldFocus = true
+
+	bool cancelConnection = false
 } file
 
 
@@ -264,6 +266,8 @@ void function InitServerBrowserMenu()
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerDescription"), UIE_CLICK, ShowServerDescription )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerMods"), UIE_CLICK, ShowServerMods )
 
+	AddButtonEventHandler( Hud_GetChild( file.menu, "ConnectingButton"), UIE_CLICK, ConnectingButton_Activate )
+
 	// Hidden cause no need, if server descriptions become too long use this
 	Hud_SetEnabled( Hud_GetChild( file.menu, "BtnServerDescription"), false)
 	Hud_SetEnabled( Hud_GetChild( file.menu, "BtnServerMods"), false)
@@ -285,6 +289,21 @@ void function InitServerBrowserMenu()
 
 	//Hud_GetChild( file.menu, "BtnServerName0").SetColor(0,0,0)
 	//Hud_GetChild( file.menu, "BtnServerName0").SetAlpha(255)
+	ToggleConnectingHUD(false)
+
+}
+
+void function ToggleConnectingHUD( bool vis )
+{
+	foreach (e in GetElementsByClassname(file.menu, "connectingHUD")) {
+		Hud_SetEnabled( e, vis )
+		Hud_SetVisible( e, vis )
+	}
+}
+
+void function ConnectingButton_Activate( var button )
+{
+	file.cancelConnection = true
 }
 
 // Get res ronvar instead of this crap
@@ -1016,8 +1035,22 @@ void function ThreadedAuthAndConnectToServer( string password = "" )
 	print( "trying to authenticate with server " + NSGetServerName( file.lastSelectedServer ) + " with password " + password )
 	NSTryAuthWithServer( file.lastSelectedServer, password )
 
-	while ( NSIsAuthenticatingWithServer() )
+	ToggleConnectingHUD( true )
+
+	while ( NSIsAuthenticatingWithServer() && !file.cancelConnection)
+	{
 		WaitFrame()
+	}
+
+	ToggleConnectingHUD( false )
+
+	if (file.cancelConnection)
+	{
+		file.cancelConnection = false
+		return
+	}
+
+	file.cancelConnection = false
 
 	if ( NSWasAuthSuccessful() )
 	{
@@ -1040,7 +1073,6 @@ void function ThreadedAuthAndConnectToServer( string password = "" )
 		// only actually reload if we need to since the uiscript reset on reload lags hard
 		if ( modsChanged )
 			ReloadMods()
-
 		NSConnectToAuthedServer()
 	}
 	else
