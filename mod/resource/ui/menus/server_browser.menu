@@ -89,9 +89,9 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
+			wide 					44
+			tall					44
+			xpos 94
 			ypos 200
 
 			pin_to_sibling			BtnServer1
@@ -104,10 +104,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 240
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 239
 
 			pin_to_sibling			BtnServer2
 			pin_corner_to_sibling	TOP_LEFT
@@ -119,10 +119,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 280
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 278
 
 			pin_to_sibling			BtnServer3
 			pin_corner_to_sibling	TOP_LEFT
@@ -134,10 +134,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 320
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 317
 
 			pin_to_sibling			BtnServer4
 			pin_corner_to_sibling	TOP_LEFT
@@ -149,10 +149,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 360
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 356
 
 			pin_to_sibling			BtnServer5
 			pin_corner_to_sibling	TOP_LEFT
@@ -164,10 +164,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 400
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 395
 
 			pin_to_sibling			BtnServer6
 			pin_corner_to_sibling	TOP_LEFT
@@ -179,10 +179,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 440
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 434
 
 			pin_to_sibling			BtnServer7
 			pin_corner_to_sibling	TOP_LEFT
@@ -194,10 +194,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 480
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 473
 
 			pin_to_sibling			BtnServer8
 			pin_corner_to_sibling	TOP_LEFT
@@ -209,10 +209,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 520
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 512
 
 			pin_to_sibling			BtnServer9
 			pin_corner_to_sibling	TOP_LEFT
@@ -224,10 +224,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 560
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 551
 
 			pin_to_sibling			BtnServer10
 			pin_corner_to_sibling	TOP_LEFT
@@ -239,10 +239,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 600
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 590
 
 			pin_to_sibling			BtnServer11
 			pin_corner_to_sibling	TOP_LEFT
@@ -254,10 +254,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 640
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 629
 
 			pin_to_sibling			BtnServer12
 			pin_corner_to_sibling	TOP_LEFT
@@ -269,10 +269,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 680
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 668
 
 			pin_to_sibling			BtnServer13
 			pin_corner_to_sibling	TOP_LEFT
@@ -284,10 +284,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 720
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 707
 
 			pin_to_sibling			BtnServer14
 			pin_corner_to_sibling	TOP_LEFT
@@ -299,10 +299,10 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerLock
 			image							"ui/menu/common/locked_icon"
 			scaleImage				1
-			wide 					48
-			tall					48
-			xpos 98
-			ypos 760
+			wide 					44
+			tall					44
+			xpos 94
+			ypos 746
 
 			pin_to_sibling			BtnServer15
 			pin_corner_to_sibling	TOP_LEFT
@@ -338,6 +338,8 @@ resource/ui/menus/mods_browse.menu
 			tall 44
 			ypos -44
 			xpos -14
+			interactive 		false
+
 
 			pin_to_sibling			BtnServer1
 			pin_corner_to_sibling	TOP_LEFT
@@ -581,7 +583,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer1
@@ -595,7 +598,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer2
@@ -623,7 +627,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer4
@@ -637,7 +642,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer5
@@ -651,7 +657,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer6
@@ -665,7 +672,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer7
@@ -679,7 +687,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer8
@@ -693,7 +702,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer9
@@ -707,7 +717,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer10
@@ -721,7 +732,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer11
@@ -735,7 +747,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer12
@@ -749,7 +762,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer13
@@ -763,7 +777,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer14
@@ -777,7 +792,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer15
@@ -812,7 +828,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer1
@@ -826,7 +843,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer2
@@ -840,7 +858,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer3
@@ -854,7 +873,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer4
@@ -868,7 +888,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer5
@@ -882,7 +903,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer6
@@ -896,7 +918,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer7
@@ -910,7 +933,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer8
@@ -924,7 +948,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer9
@@ -938,7 +963,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer10
@@ -952,7 +978,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer11
@@ -966,7 +993,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer12
@@ -980,7 +1008,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer13
@@ -994,7 +1023,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer14
@@ -1008,7 +1038,8 @@ resource/ui/menus/mods_browse.menu
 			classname ServerMap
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -709
 
 			pin_to_sibling			BtnServer15
@@ -1042,7 +1073,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer1
@@ -1056,7 +1088,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer2
@@ -1070,7 +1103,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer3
@@ -1084,7 +1118,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer4
@@ -1098,7 +1133,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer5
@@ -1112,7 +1148,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer6
@@ -1126,7 +1163,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer7
@@ -1140,7 +1178,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer8
@@ -1154,7 +1193,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer9
@@ -1168,7 +1208,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer10
@@ -1182,7 +1223,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer11
@@ -1196,7 +1238,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer12
@@ -1210,7 +1253,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer13
@@ -1224,7 +1268,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer14
@@ -1238,7 +1283,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				ServerGamemode
 			wide 140
 			textAlignment	center
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -860
 
 			pin_to_sibling			BtnServer15
@@ -1272,7 +1318,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer1
@@ -1286,7 +1333,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer2
@@ -1300,7 +1348,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer3
@@ -1314,7 +1363,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer4
@@ -1328,7 +1378,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer5
@@ -1342,7 +1393,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer6
@@ -1356,7 +1408,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer7
@@ -1370,7 +1423,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer8
@@ -1384,7 +1438,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer9
@@ -1398,7 +1453,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer10
@@ -1412,7 +1468,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer11
@@ -1426,7 +1483,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer12
@@ -1440,7 +1498,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer13
@@ -1454,7 +1513,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer14
@@ -1468,7 +1528,8 @@ resource/ui/menus/mods_browse.menu
 			classname 				Serverlatency
 			textAlignment	center
 			wide 110
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -1006
 
 			pin_to_sibling			BtnServer15
@@ -1972,7 +2033,7 @@ resource/ui/menus/mods_browse.menu
 		ControlName					RuiButton
 		InheritProperties		RuiSmallButton
 		labelText			"#SEARCHBAR_LABEL"
-		textAlignment east
+		textAlignment west
 		wide					500
 		xpos -23
 		ypos -16
@@ -1993,7 +2054,7 @@ resource/ui/menus/mods_browse.menu
 	{
 		ControlName				TextEntry
 		zpos					100 // This works around input weirdness when the control is constructed by code instead of VGUI blackbox.
-		xpos 					-490
+		xpos 					-400
 		ypos 					-5
 		wide					390
 		tall					30

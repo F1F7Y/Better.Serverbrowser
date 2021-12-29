@@ -9,14 +9,10 @@ global function UpdateMouseDeltaBuffer
 // Stop peeking
 // Code is a mess rn, will clean up
 // TODO:
-//  - PasswordProtected icons don't snap to buttons -> slight missalignment
-//  - Finish ScrollBar
-//  - Add Arrow navigation
-//  - Labels not tall enough -> g;y get cut off
-//  - Some server names are too long
-//    - Cut off in browser
-//    - Wrap in preview?
+//  - Finish Arrow navigation
+//  - Doubleclick triggers when using arrows at ends of list
 //  - Optimize this mess
+//  - Add ability to stop connecting to server, use pog circle
 
 // Follow pointer, let scrollOffset be it's own thing -> will look more fluid; fix the sync issue?
 
@@ -103,6 +99,12 @@ void function FlushMouseDeltaBuffer()
 
 void function SliderBarUpdate()
 {
+	if ( serversArrayFiltered.len() <= 15 )
+	{
+		FlushMouseDeltaBuffer()
+		return
+	}
+
 	var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
 	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
 	var movementCapture = Hud_GetChild( file.menu , "MouseMovementCapture" )
@@ -140,31 +142,43 @@ bool function floatCompareInRange(float arg1, float arg2, float tolerance)
 	return false
 }
 
-
+// Hard coded for now
 array<string> function GetNorthstarGamemodes()
 {
 	array<string> modes
+
+	//modes.append( "#PL_aitdm" )
+	modes.append( "#PL_pilot_hunter" )
+	modes.append( "#PL_hardpoint" )
+	//modes.append( "#PL_attrition" )
+	modes.append( "#PL_capture_the_flag" )
+	modes.append( "#PL_last_titan_standing" )
+	modes.append( "#PL_pilot_skirmish" )
+	modes.append( "#PL_live_fire" )
+	modes.append( "#PL_marked_for_death" )
+	modes.append( "#PL_titan_brawl" )
+	//modes.append( "#PL_fd_easy" )
+	//modes.append( "#PL_fd_normal" )
+	//modes.append( "#PL_fd_hard" )
+	//modes.append( "#PL_fd_master" )
+	//modes.append( "#PL_fd_insane" )
+	modes.append( "#PL_ffa" )
+	modes.append( "#PL_fra" )
+	modes.append( "#PL_coliseum" )
+	modes.append( "#PL_aegis_titan_brawl" )
+	modes.append( "#PL_titan_brawl_turbo" )
+	modes.append( "#PL_aegis_last_titan_standing" )
+	modes.append( "#PL_turbo_last_titan_standing" )
+	modes.append( "#PL_rocket_arena" )
+	modes.append( "#PL_all_holopilot" )
 	modes.append( "#PL_gg" )
 	modes.append( "#PL_tt" )
 	modes.append( "#PL_inf" )
-	modes.append( "#PL_hs" )
-	modes.append( "#PL_fw" )
 	modes.append( "#PL_kr" )
 	modes.append( "#PL_fastball" )
-	modes.append( "#PL_hardpoint" )
-	modes.append( "#PL_last_titan_standing" )
-	modes.append( "#PL_attrition" )
-	modes.append( "#PL_pilot_hunter" )
-	modes.append( "#PL_aitdm" )
-	modes.append( "#PL_coliseum" )
-	modes.append( "#PL_pilot_skirmish" )
-	modes.append( "#PL_capture_the_flag" )
-	modes.append( "#PL_ffa" )
-	modes.append( "#PL_free_agents" )
-	modes.append( "#PL_speedball" )
-	modes.append( "#PL_marked_for_death" )
-	modes.append( "#PL_titan_brawl" )
-	modes.append( "#PL_fd" )
+	modes.append( "#GAMEMODE_hs" )
+	modes.append( "#GAMEMODE_ctf_comp" )
+
 
 	return modes
 }
@@ -268,6 +282,9 @@ void function InitServerBrowserMenu()
 	RuiSetString( Hud_GetRui( Hud_GetChild( file.menu, "SwtBtnHideProtected")), "buttonText", "")
 	RuiSetString( Hud_GetRui( Hud_GetChild( file.menu, "SwtBtnSelectMap")), "buttonText", "")
 	RuiSetString( Hud_GetRui( Hud_GetChild( file.menu, "SwtBtnSelectGamemode")), "buttonText", "")
+
+	//Hud_GetChild( file.menu, "BtnServerName0").SetColor(0,0,0)
+	//Hud_GetChild( file.menu, "BtnServerName0").SetAlpha(255)
 }
 
 // Get res ronvar instead of this crap
@@ -562,7 +579,7 @@ void function SortServerListByMap( var button )
 	{
 		for ( int j = 0; j < n - 1; j++)
 		{
-			if ( serversArrayFiltered[ j ].serverMap < serversArrayFiltered[ j + 1 ].serverMap && filterDirection.serverMap || serversArrayFiltered[ j ].serverMap > serversArrayFiltered[ j + 1 ].serverMap && !filterDirection.serverMap)
+			if ( Localize(serversArrayFiltered[ j ].serverMap) < Localize(serversArrayFiltered[ j + 1 ].serverMap) && filterDirection.serverMap || Localize(serversArrayFiltered[ j ].serverMap) > Localize(serversArrayFiltered[ j + 1 ].serverMap) && !filterDirection.serverMap)
 			{
 				tempServer = serversArrayFiltered[ j ]
 				serversArrayFiltered[ j ] = serversArrayFiltered[ j + 1 ]
@@ -588,7 +605,7 @@ void function SortServerListByGamemode( var button )
 	{
 		for ( int j = 0; j < n - 1; j++)
 		{
-			if ( serversArrayFiltered[ j ].serverGamemode < serversArrayFiltered[ j + 1 ].serverGamemode && filterDirection.serverGamemode || serversArrayFiltered[ j ].serverGamemode > serversArrayFiltered[ j + 1 ].serverGamemode && !filterDirection.serverGamemode)
+			if ( Localize(serversArrayFiltered[ j ].serverGamemode) < Localize(serversArrayFiltered[ j + 1 ].serverGamemode) && filterDirection.serverGamemode || Localize(serversArrayFiltered[ j ].serverGamemode) > Localize(serversArrayFiltered[ j + 1 ].serverGamemode) && !filterDirection.serverGamemode)
 			{
 				tempServer = serversArrayFiltered[ j ]
 				serversArrayFiltered[ j ] = serversArrayFiltered[ j + 1 ]
@@ -698,11 +715,24 @@ void function RefreshServers( var button )
 void function WaitForServerListRequest()
 {
 	var menu = GetMenu( "ServerBrowserMenu" )
+
 	array<var> serverButtons = GetElementsByClassname( menu, "ServerButton" )
 	array<var> serversName = GetElementsByClassname( menu, "ServerName" )
-	foreach ( var button in serverButtons )
+	array<var> playerCountLabels = GetElementsByClassname( menu, "PlayerCount" )
+	array<var> serversProtected = GetElementsByClassname( menu, "ServerLock" )
+	array<var> serversMap = GetElementsByClassname( menu, "ServerMap" )
+	array<var> serversGamemode = GetElementsByClassname( menu, "ServerGamemode" )
+	array<var> serversLatency = GetElementsByClassname( menu, "ServerLatency" )
+
+	for ( int i = 0; i < 15; i++)
 	{
-		Hud_SetVisible( button, false )
+		Hud_SetVisible( serversProtected[ i ], false )
+		Hud_SetVisible( serverButtons[ i ], false )
+		Hud_SetText( serversName[ i ], "" )
+		Hud_SetText( playerCountLabels[ i ], "" )
+		Hud_SetText( serversMap[ i ], "" )
+		Hud_SetText( serversGamemode[ i ], "" )
+		Hud_SetText( serversLatency[ i ], "" )
 	}
 
 

@@ -14,6 +14,7 @@ You can disable the mod by clicking on it in the mods menu
 ## Contributors
 - Fifty#8113
 - Meelo#6036
+- Kami-Kaze#0001
 
 ## Known issues
 - Latency
@@ -21,6 +22,4 @@ You can disable the mod by clicking on it in the mods menu
 
 ## FAQ
 - Will this be incorporated into northstar?
-  - Based on the comunity feedback
-  - If there's a lot of problems; no
-  - If there's not a lot of problems; yes
+  - Yes
