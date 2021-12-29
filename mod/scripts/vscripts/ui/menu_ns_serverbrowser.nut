@@ -235,6 +235,9 @@ void function InitServerBrowserMenu()
 	}
 
 	AddButtonEventHandler( Hud_GetChild( file.menu , "BtnServerNameTab" ), UIE_GET_FOCUS, OnServerButtonFocused )
+	
+	AddButtonEventHandler( Hud_GetChild( file.menu , "BtnServerDummmyTop" ), UIE_GET_FOCUS, OnHitDummyTop )
+	AddButtonEventHandler( Hud_GetChild( file.menu , "BtnServerDummmyBottom" ), UIE_GET_FOCUS, OnHitDummyBottom )
 
 
 
@@ -255,12 +258,12 @@ void function InitServerBrowserMenu()
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerLatencyTab"), UIE_CLICK, SortServerListByLatency )
 
 
-	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnSelectMap"), UIE_CLICK, FilterAndUpdateList )
-	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnSelectGamemode"), UIE_CLICK, FilterAndUpdateList )
-	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideFull"), UIE_CLICK, FilterAndUpdateList )
-	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideEmpty"), UIE_CLICK, FilterAndUpdateList )
-	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideProtected"), UIE_CLICK, FilterAndUpdateList )
-	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnSearchLabel"), UIE_CLICK, FilterAndUpdateList )
+	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnSelectMap"), UIE_CHANGE, FilterAndUpdateList )
+	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnSelectGamemode"), UIE_CHANGE, FilterAndUpdateList )
+	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideFull"), UIE_CHANGE, FilterAndUpdateList )
+	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideEmpty"), UIE_CHANGE, FilterAndUpdateList )
+	AddButtonEventHandler( Hud_GetChild( file.menu, "SwtBtnHideProtected"), UIE_CHANGE, FilterAndUpdateList )
+	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnSearchLabel"), UIE_CHANGE, FilterAndUpdateList )
 
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerSearch"), UIE_CHANGE, FilterAndUpdateList )
 
@@ -338,8 +341,8 @@ void function OnCloseServerBrowserMenu()
 	DeregisterButtonPressedCallback(MOUSE_WHEEL_UP , OnScrollUp)
 	DeregisterButtonPressedCallback(MOUSE_WHEEL_DOWN , OnScrollDown)
 	//DeregisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
-	DeregisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
-	DeregisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
+	// DeregisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
+	// DeregisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
 	DeregisterButtonPressedCallback(KEY_TAB , OnKeyTabPressed)
 }
 
@@ -360,7 +363,7 @@ bool function IsFilterPanelElementFocused() {
 				 (name == "SwtBtnHideProtected") ||
 				 (name == "BtnFiltersClear");
 
-	print("is filter element \"" + name + "\": " + match);
+	// print("is filter element \"" + name + "\": " + match);
 
 	return match;
 }
@@ -368,57 +371,54 @@ bool function IsFilterPanelElementFocused() {
 void function OnKeyTabPressed(var button) {
 	// toggle focus between server list and filter panel
 	if (IsFilterPanelElementFocused()) {
-		// print("Switching focus from filter panel to server list");
-		Hud_SetFocused(Hud_GetChild(file.menu, "BtnServer1"));
+		// print("Switching focus from filter panel to server list")
+		Hud_SetFocused(Hud_GetChild(file.menu, "BtnServer1"))
 	}
 	else {
-		// print("Switching focus from server list to filter panel");
-		Hud_SetFocused(Hud_GetChild(file.menu, "BtnServerSearch"));
+		// print("Switching focus from server list to filter panel")
+		Hud_SetFocused(Hud_GetChild(file.menu, "BtnServerSearch"))
 		HideServerInfo()
 	}
 }
 
-void function OnKeyUpArrowSelected( var button )
-{
-	if (IsFilterPanelElementFocused() || file.serverButtonFocusedID != 0) return;
-
-	DisplayFocusedServerInfo(file.serverButtonFocusedID, false)
-
-	//file.lastSelectedServer = 999
-
+void function OnHitDummyTop(var button) {
 	file.scrollOffset -= 1
-	if (file.scrollOffset < 0)	file.scrollOffset = 0
-
-
-	UpdateShownPage()
-	UpdateListSliderPosition( serversArrayFiltered.len() )
+	if (file.scrollOffset < 0)	{
+		// was at top already
+		file.scrollOffset = 0
+		Hud_SetFocused(Hud_GetChild(file.menu, "BtnFiltersClear"))
+	} else {
+		// only update if list position changed
+		UpdateShownPage()
+		UpdateListSliderPosition( serversArrayFiltered.len() )
+		DisplayFocusedServerInfo(file.serverButtonFocusedID, false)
+		Hud_SetFocused(Hud_GetChild(file.menu, "BtnServer1"))
+	}
 }
 
-void function OnKeyDownArrowSelected( var button )
-{
-	if (IsFilterPanelElementFocused() || file.serverButtonFocusedID != 14) return;
-
-	DisplayFocusedServerInfo(file.serverButtonFocusedID, false)
-
-	//file.lastSelectedServer = 999
+void function OnHitDummyBottom(var button) {
 	file.scrollOffset += 1
 	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len())
 	{
+		// was at bottom already
 		file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
+		Hud_SetFocused(Hud_GetChild(file.menu, "BtnServerSearch"))
+	} else {
+		// only update if list position changed
+		UpdateShownPage()
+		UpdateListSliderPosition( serversArrayFiltered.len() )
+		DisplayFocusedServerInfo(file.serverButtonFocusedID, false)
+		Hud_SetFocused(Hud_GetChild(file.menu, "BtnServer15"))
 	}
-	printt("1: ", file.lastSelectedServer )
-	printt("2: ", file.serverButtonFocusedID )
-
-
-	UpdateShownPage()
-	UpdateListSliderPosition( serversArrayFiltered.len() )
 }
 
 
 void function OnDownArrowSelected( var button )
 {
 	file.scrollOffset += 1
-	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len()) file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
+	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len()) {
+		file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
+	}
 	UpdateShownPage()
 	UpdateListSliderPosition( serversArrayFiltered.len() )
 }
@@ -427,7 +427,9 @@ void function OnDownArrowSelected( var button )
 void function OnUpArrowSelected( var button )
 {
 	file.scrollOffset -= 1
-	if (file.scrollOffset < 0) file.scrollOffset = 0
+	if (file.scrollOffset < 0) {
+		file.scrollOffset = 0
+	}
 	UpdateShownPage()
 	UpdateListSliderPosition( serversArrayFiltered.len() )
 }
@@ -437,7 +439,9 @@ void function OnScrollDown( var button )
 {
 	if (serversArrayFiltered.len() <= 15) return
 	file.scrollOffset += 5
-	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len()) file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
+	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len()) {
+		file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
+	}
 	UpdateShownPage()
 	UpdateListSliderPosition( serversArrayFiltered.len() )
 }
@@ -445,7 +449,9 @@ void function OnScrollDown( var button )
 void function OnScrollUp( var button )
 {
 	file.scrollOffset -= 5
-	if (file.scrollOffset < 0) file.scrollOffset = 0
+	if (file.scrollOffset < 0) {
+		file.scrollOffset = 0
+	}
 	UpdateShownPage()
 	UpdateListSliderPosition( serversArrayFiltered.len() )
 }
@@ -536,8 +542,8 @@ void function OnServerBrowserMenuOpened()
 	RegisterButtonPressedCallback(MOUSE_WHEEL_UP , OnScrollUp)
 	RegisterButtonPressedCallback(MOUSE_WHEEL_DOWN , OnScrollDown)
 	//RegisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
-	RegisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
-	RegisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
+	// RegisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
+	// RegisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
 	RegisterButtonPressedCallback(KEY_TAB , OnKeyTabPressed)
 }
 
@@ -913,7 +919,7 @@ void function UpdateShownPage()
 
 void function OnServerButtonFocused( var button )
 {
-	int scriptID = int (Hud_GetScriptID(button))	
+	int scriptID = int (Hud_GetScriptID(button))
 	file.serverButtonFocusedID = scriptID
 	DisplayFocusedServerInfo(scriptID, false);
 
@@ -927,7 +933,7 @@ void function OnServerFocused(var button)
 
 void function DisplayFocusedServerInfo( int scriptID, bool wasClickNav )
 {
-	if ( file.lastSelectedServer == 999 || scriptID == 999 ) return
+	if ( file.lastSelectedServer == 999 || scriptID == 999 || scriptID == -1 || scriptID == 16) return
 
 	if ( NSIsRequestingServerList() || NSGetServerCount() == 0 || file.serverListRequestFailed )
 		return
@@ -944,7 +950,7 @@ void function DisplayFocusedServerInfo( int scriptID, bool wasClickNav )
 	file.serverSelectedTimeLast = file.serverSelectedTime
 	file.serverSelectedTime = Time()
 
-	printt(file.serverSelectedTime - file.serverSelectedTimeLast,";", file.lastSelectedServer,";", file.serverButtonFocusedID, ";",sameServer)
+	// printt(file.serverSelectedTime - file.serverSelectedTimeLast,";", file.lastSelectedServer,";", file.serverButtonFocusedID, ";",sameServer)
 
 	file.lastSelectedServer = serverIndex
 
