@@ -245,6 +245,7 @@ void function InitServerBrowserMenu()
 
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerListUpArrow"), UIE_CLICK, OnUpArrowSelected )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerListDownArrow"), UIE_CLICK, OnDownArrowSelected )
+	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnDummyAfterFilterClear"), UIE_GET_FOCUS, OnHitDummyAfterFilterClear )
 
 
 
@@ -341,8 +342,6 @@ void function OnCloseServerBrowserMenu()
 	DeregisterButtonPressedCallback(MOUSE_WHEEL_UP , OnScrollUp)
 	DeregisterButtonPressedCallback(MOUSE_WHEEL_DOWN , OnScrollDown)
 	//DeregisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
-	// DeregisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
-	// DeregisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
 	DeregisterButtonPressedCallback(KEY_TAB , OnKeyTabPressed)
 }
 
@@ -350,6 +349,8 @@ bool function IsFilterPanelElementFocused() {
 	// get name of focused element
 	var focusedElement = GetFocus();
 	var name = Hud_GetHudName(focusedElement);
+
+	print(name)
 	
 	// kinda sucks but just check if any of the filter elements
 	// has focus. would be nice to have tags or sth here
@@ -361,7 +362,8 @@ bool function IsFilterPanelElementFocused() {
 				 (name == "SwtBtnHideFull") ||
 				 (name == "SwtBtnHideEmpty") ||
 				 (name == "SwtBtnHideProtected") ||
-				 (name == "BtnFiltersClear");
+				 (name == "BtnFiltersClear") ||
+				 (name == "BtnDummyAfterFilterClear");
 
 	// print("is filter element \"" + name + "\": " + match);
 
@@ -410,6 +412,10 @@ void function OnHitDummyBottom(var button) {
 		DisplayFocusedServerInfo(file.serverButtonFocusedID, false)
 		Hud_SetFocused(Hud_GetChild(file.menu, "BtnServer15"))
 	}
+}
+
+void function OnHitDummyAfterFilterClear(var button) {
+	Hud_SetFocused(Hud_GetChild(file.menu, "BtnServer1"))
 }
 
 
@@ -542,8 +548,6 @@ void function OnServerBrowserMenuOpened()
 	RegisterButtonPressedCallback(MOUSE_WHEEL_UP , OnScrollUp)
 	RegisterButtonPressedCallback(MOUSE_WHEEL_DOWN , OnScrollDown)
 	//RegisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
-	// RegisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
-	// RegisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
 	RegisterButtonPressedCallback(KEY_TAB , OnKeyTabPressed)
 }
 

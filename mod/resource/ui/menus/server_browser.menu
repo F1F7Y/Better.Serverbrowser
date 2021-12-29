@@ -2310,9 +2310,16 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling_corner	BOTTOM_RIGHT
 
 		navUp					SwtBtnHideProtected
-		navDown					BtnServer1
+		navDown					BtnDummyAfterFilterClear
 		navLeft					SwtBtnHideProtected
 		navRight				BtnServerJoin
+	}
+
+	BtnDummyAfterFilterClear {
+		ControlName	RuiButton
+		width		0
+		height		0
+		visible 	1
 	}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
