@@ -299,6 +299,8 @@ void function ToggleConnectingHUD( bool vis )
 		Hud_SetEnabled( e, vis )
 		Hud_SetVisible( e, vis )
 	}
+
+	if ( vis ) Hud_SetFocused( Hud_GetChild( file.menu, "ConnectingButton" ) )
 }
 
 void function ConnectingButton_Activate( var button )
