@@ -99,6 +99,12 @@ void function FlushMouseDeltaBuffer()
 
 void function SliderBarUpdate()
 {
+	if ( serversArrayFiltered.len() <= 15 )
+	{
+		FlushMouseDeltaBuffer()
+		return
+	}
+
 	var sliderButton = Hud_GetChild( file.menu , "BtnServerListSlider" )
 	var sliderPanel = Hud_GetChild( file.menu , "BtnServerListSliderPanel" )
 	var movementCapture = Hud_GetChild( file.menu , "MouseMovementCapture" )
@@ -136,7 +142,7 @@ bool function floatCompareInRange(float arg1, float arg2, float tolerance)
 	return false
 }
 
-
+// Hard coded for now
 array<string> function GetNorthstarGamemodes()
 {
 	array<string> modes
