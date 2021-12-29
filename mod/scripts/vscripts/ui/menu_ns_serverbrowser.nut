@@ -9,8 +9,6 @@ global function UpdateMouseDeltaBuffer
 // Stop peeking
 // Code is a mess rn, will clean up
 // TODO:
-//  - Finish Arrow navigation
-//  - Doubleclick triggers when using arrows at ends of list
 //  - Optimize this mess
 //  - Add ability to stop connecting to server, use pog circle
 
