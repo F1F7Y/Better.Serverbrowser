@@ -71,9 +71,7 @@ struct {
 	float serverSelectedTimeLast = 0
 	//array<string> serverButtons
 	int serverButtonFocusedID = 0
-	bool usingArrowKeys = false
 	bool shouldFocus = true
-
 	bool cancelConnection = false
 } file
 
@@ -382,13 +380,11 @@ void function OnKeyTabPressed(var button) {
 
 void function OnKeyUpArrowSelected( var button )
 {
-	if (IsFilterPanelElementFocused()) return;
+	if (IsFilterPanelElementFocused() || file.serverButtonFocusedID != 0) return;
 
 	DisplayFocusedServerInfo(file.serverButtonFocusedID, false)
 
 	//file.lastSelectedServer = 999
-
-	if ( file.serverButtonFocusedID != 0) return
 
 	file.scrollOffset -= 1
 	if (file.scrollOffset < 0)	file.scrollOffset = 0
@@ -400,13 +396,11 @@ void function OnKeyUpArrowSelected( var button )
 
 void function OnKeyDownArrowSelected( var button )
 {
-	if (IsFilterPanelElementFocused()) return;
+	if (IsFilterPanelElementFocused() || file.serverButtonFocusedID != 14) return;
 
 	DisplayFocusedServerInfo(file.serverButtonFocusedID, false)
 
 	//file.lastSelectedServer = 999
-
-	if ( file.serverButtonFocusedID != 14) return
 	file.scrollOffset += 1
 	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len())
 	{
