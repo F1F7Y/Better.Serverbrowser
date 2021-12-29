@@ -303,8 +303,25 @@ void function OnCloseServerBrowserMenu()
 	DeregisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
 }
 
+bool function IsServerRowFocused() {
+	// get name of focused element
+	var focusedElement = GetFocus();
+	var name = Hud_GetHudName(focusedElement);
+	
+	// check if focused element is a server button.
+	// it would be nice to be able to check something like focusedElement.classname == "ServerButton"
+	// but I didn't find anything close to that so regex matching it is
+	
+	bool match = bool(regexp("^BtnServer\\d+$").match(name));
+	// print("Element \"" + name + "\" is server button: " + match);
+
+	return match;
+}
+
 void function OnKeyUpArrowSelected( var button )
 {
+	if (!IsServerRowFocused()) return;
+
 	DisplayFocusedServerInfo(file.serverButtonFocusedID)
 
 	if ( file.serverButtonFocusedID != 0) return
@@ -319,6 +336,8 @@ void function OnKeyUpArrowSelected( var button )
 
 void function OnKeyDownArrowSelected( var button )
 {
+	if (!IsServerRowFocused()) return;
+
 	DisplayFocusedServerInfo(file.serverButtonFocusedID)
 
 	if ( file.serverButtonFocusedID != 14) return
