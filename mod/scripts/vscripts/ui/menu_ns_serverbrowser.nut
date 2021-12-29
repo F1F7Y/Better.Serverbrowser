@@ -9,12 +9,7 @@ global function UpdateMouseDeltaBuffer
 // Stop peeking
 // Code is a mess rn, will clean up
 // TODO:
-//  - Finish Arrow navigation
-//  - Doubleclick triggers when using arrows at ends of list
 //  - Optimize this mess
-//  - Add ability to stop connecting to server, use pog circle
-
-// Follow pointer, let scrollOffset be it's own thing -> will look more fluid; fix the sync issue?
 
 const int BUTTONS_PER_PAGE = 15
 const float DOUBLE_CLICK_TIME_MS = 0.2 // unsure what the ideal value is
@@ -141,9 +136,11 @@ void function SliderBarUpdate()
 
 bool function floatCompareInRange(float arg1, float arg2, float tolerance)
 {
-	if ( arg1 > arg2 - tolerance || arg1 < arg2 + tolerance) return true
+	if ( arg1 > arg2 - tolerance && arg1 < arg2 + tolerance) return true
 	return false
 }
+
+
 
 // Hard coded for now
 array<string> function GetNorthstarGamemodes()
@@ -294,6 +291,7 @@ void function InitServerBrowserMenu()
 	//Hud_GetChild( file.menu, "BtnServerName0").SetAlpha(255)
 	ToggleConnectingHUD(false)
 
+	UpdateServerInfoBasedOnRes()
 }
 
 void function ToggleConnectingHUD( bool vis )
@@ -311,28 +309,29 @@ void function ConnectingButton_Activate( var button )
 	file.cancelConnection = true
 }
 
-// Get res ronvar instead of this crap
-//void function UpdateServerInfoBasedOnRes()
-//{
-	/*printt(floatCompareInRange(float(GetScreenSize()[0]) / float(GetScreenSize()[1]) , 4.0/3.0, 0.5))
-	printt("------------------------------------------------------------------")
-	if (floatCompareInRange(float(GetScreenSize()[0]) / float(GetScreenSize()[1]) , 16/10, 0.25))
+// No way to get aspect ratio sadly
+// This doesn't werk on some obscure resolutions, mostly really small 4:3
+void function UpdateServerInfoBasedOnRes()
+{
+	if (floatCompareInRange(float(GetScreenSize()[0]) / float(GetScreenSize()[1]) , 1.6, 0.07)) // 16/10
 	{
 		Hud_SetWidth( Hud_GetChild(file.menu, "ServerName"), 392)
 		Hud_SetWidth( Hud_GetChild(file.menu, "NextMapImage"), 400)
+		Hud_SetWidth( Hud_GetChild(file.menu, "NextMapBack"), 400)
 		Hud_SetWidth( Hud_GetChild(file.menu, "LabelMods"), 360)
 		Hud_SetWidth( Hud_GetChild(file.menu, "LabelDescription"), 360)
 		Hud_SetWidth( Hud_GetChild(file.menu, "ServerDetailsPanel"), 400)
 	}
-	if(floatCompareInRange(float(GetScreenSize()[0]) / float(GetScreenSize()[1]) , 4.0/3.0, 0.25))
+	if(floatCompareInRange(float(GetScreenSize()[0]) / float(GetScreenSize()[1]) , 1.3, 0.055)) // 4/3
 	{
 		Hud_SetWidth( Hud_GetChild(file.menu, "ServerName"), 292)
 		Hud_SetWidth( Hud_GetChild(file.menu, "NextMapImage"), 300)
+		Hud_SetWidth( Hud_GetChild(file.menu, "NextMapBack"), 300)
 		Hud_SetWidth( Hud_GetChild(file.menu, "LabelMods"), 260)
 		Hud_SetWidth( Hud_GetChild(file.menu, "LabelDescription"), 260)
-		Hud_SetWidth( Hud_GetChild(file.menu, "ServerDetailsPanel"), 300)*/
-	//}
-//}
+		Hud_SetWidth( Hud_GetChild(file.menu, "ServerDetailsPanel"), 300)
+	}
+}
 
 
 void function OnCloseServerBrowserMenu()
@@ -373,9 +372,12 @@ void function OnKeyUpArrowSelected( var button )
 void function OnKeyDownArrowSelected( var button )
 {
 	file.usingArrowKeys = true
+
+	int j = serversArrayFiltered.len()
+
 	if (file.serverButtonFocusedID == 14 && file.lastSelectedServer == serversArrayFiltered.len()-1)
 	{
-		Hud_SetFocused( Hud_GetChild(file.menu, "BtnFiltersClear" ) )
+		Hud_SetFocused( Hud_GetChild(file.menu, "BtnServerSearch" ) )
 	}
 
 	DisplayFocusedServerInfo(file.serverButtonFocusedID)
@@ -399,6 +401,7 @@ void function OnKeyDownArrowSelected( var button )
 
 void function OnDownArrowSelected( var button )
 {
+	if (serversArrayFiltered.len() <= 15) return
 	file.scrollOffset += 1
 	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len()) file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
 	UpdateShownPage()
@@ -772,6 +775,18 @@ void function WaitForServerListRequest()
 	else
 	{
 		FilterAndUpdateList(0)
+
+		int totalPlayers = 0
+		for (int i = 0; i < NSGetServerCount(); i++) {
+			totalPlayers += NSGetServerPlayerCount(i)
+		}
+
+		printt("Better.Serverbrowser:------------------------")
+		printt("Server count: ", NSGetServerCount())
+		printt("Filtered count: ", serversArrayFiltered.len())
+		printt("Total players: ", totalPlayers)
+		printt("This message gets shown only on full refresh")
+		printt("---------------------------------------------")
 	}
 }
 
@@ -906,7 +921,6 @@ void function OnServerFocused( var button )
 
 void function DisplayFocusedServerInfo( int scriptID )
 {
-	if ( file.lastSelectedServer == 999 || scriptID == 999 ) return
 
 	if ( NSIsRequestingServerList() || NSGetServerCount() == 0 || file.serverListRequestFailed )
 		return

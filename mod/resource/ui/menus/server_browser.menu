@@ -720,7 +720,8 @@ resource/ui/menus/mods_browse.menu
 			classname PlayerCount
 			textAlignment	center
 			wide 104
-			ypos -34
+			tall 44
+			ypos -44
 			xpos -600
 
 			pin_to_sibling			BtnServer3
@@ -2173,6 +2174,9 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling				BtnSearchLabel
 		pin_corner_to_sibling		TOP_LEFT
 		pin_to_sibling_corner		TOP_RIGHT
+
+		navUp			BtnServer15
+		navDown		SwtBtnSelectMap
 	}
 
 	SwtBtnSelectMap
@@ -2186,6 +2190,9 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling BtnSearchLabel
 		pin_corner_to_sibling		TOP_LEFT
 		pin_to_sibling_corner		BOTTOM_LEFT
+
+		navUp			BtnServerSearch
+		navDown		SwtBtnSelectGamemode
 	}
 	SwtBtnSelectGamemode
 	{
@@ -2198,6 +2205,9 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling SwtBtnSelectMap
 		pin_corner_to_sibling	TOP_LEFT
 		pin_to_sibling_corner	BOTTOM_LEFT
+
+		navUp			SwtBtnSelectMap
+		navDown		SwtBtnHideFull
 	}
 
 	SwtBtnHideFull
@@ -2218,6 +2228,9 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling BtnSearchLabel
 		pin_corner_to_sibling	TOP_LEFT
 		pin_to_sibling_corner	TOP_RIGHT
+
+		navUp			SwtBtnSelectGamemode
+		navDown		SwtBtnHideEmpty
 	}
 	SwtBtnHideEmpty
 	{
@@ -2237,6 +2250,9 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling SwtBtnHideFull
 		pin_corner_to_sibling	TOP_LEFT
 		pin_to_sibling_corner	BOTTOM_LEFT
+
+		navUp			SwtBtnHideFull
+		navDown		SwtBtnHideProtected
 	}
 	SwtBtnHideProtected
 	{
@@ -2255,6 +2271,9 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling SwtBtnHideEmpty
 		pin_corner_to_sibling	TOP_LEFT
 		pin_to_sibling_corner	BOTTOM_LEFT
+
+		navUp			SwtBtnHideEmpty
+		navDown		BtnFiltersClear
 	}
 
 	BtnFiltersClear
@@ -2274,6 +2293,7 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling_corner	BOTTOM_RIGHT
 
 		navUp 				BtnServer15
+		navLeft				SwtBtnHideProtected
 		navRight			BtnServerJoin
 	}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
