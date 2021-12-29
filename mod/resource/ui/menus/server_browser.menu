@@ -176,7 +176,6 @@ resource/ui/menus/mods_browse.menu
 		// BtnServerPasswordProtected (lock icons) dont pin to specified siblings
 		// Their 0,0 is the screen 0,0
 		// Too lazy to fix hopefully doesn't break on other resolutions
-
 		BtnServerPasswordProtectedTab
 		{
 			ControlName				ImagePanel
@@ -214,7 +213,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 240
+			ypos 239
 
 			pin_to_sibling			BtnServer2
 			pin_corner_to_sibling	TOP_LEFT
@@ -229,7 +228,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 280
+			ypos 279
 
 			pin_to_sibling			BtnServer3
 			pin_corner_to_sibling	TOP_LEFT
@@ -244,7 +243,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 320
+			ypos 319
 
 			pin_to_sibling			BtnServer4
 			pin_corner_to_sibling	TOP_LEFT
@@ -259,7 +258,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 360
+			ypos 359
 
 			pin_to_sibling			BtnServer5
 			pin_corner_to_sibling	TOP_LEFT
@@ -274,7 +273,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 400
+			ypos 399
 
 			pin_to_sibling			BtnServer6
 			pin_corner_to_sibling	TOP_LEFT
@@ -289,7 +288,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 440
+			ypos 439
 
 			pin_to_sibling			BtnServer7
 			pin_corner_to_sibling	TOP_LEFT
@@ -304,7 +303,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 480
+			ypos 479
 
 			pin_to_sibling			BtnServer8
 			pin_corner_to_sibling	TOP_LEFT
@@ -319,7 +318,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 520
+			ypos 519
 
 			pin_to_sibling			BtnServer9
 			pin_corner_to_sibling	TOP_LEFT
@@ -334,7 +333,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 560
+			ypos 559
 
 			pin_to_sibling			BtnServer10
 			pin_corner_to_sibling	TOP_LEFT
@@ -349,7 +348,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 400
+			ypos 399
 
 			pin_to_sibling			BtnServer11
 			pin_corner_to_sibling	TOP_LEFT
@@ -364,7 +363,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 640
+			ypos 639
 
 			pin_to_sibling			BtnServer12
 			pin_corner_to_sibling	TOP_LEFT
@@ -379,7 +378,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 680
+			ypos 679
 
 			pin_to_sibling			BtnServer13
 			pin_corner_to_sibling	TOP_LEFT
@@ -394,7 +393,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 720
+			ypos 719
 
 			pin_to_sibling			BtnServer14
 			pin_corner_to_sibling	TOP_LEFT
@@ -409,7 +408,7 @@ resource/ui/menus/mods_browse.menu
 			wide 					48
 			tall 					48
 			xpos 94
-			ypos 760
+			ypos 759
 
 			pin_to_sibling			BtnServer15
 			pin_corner_to_sibling	TOP_LEFT
