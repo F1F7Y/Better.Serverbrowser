@@ -71,7 +71,10 @@ struct {
 	float serverSelectedTimeLast = 0
 	//array<string> serverButtons
 	int serverButtonFocusedID = 0
+	bool usingArrowKeys = false
 	bool shouldFocus = true
+
+	bool cancelConnection = false
 } file
 
 
@@ -233,6 +236,8 @@ void function InitServerBrowserMenu()
 		Hud_SetWidth( button , width )
 	}
 
+	AddButtonEventHandler( Hud_GetChild( file.menu , "BtnServerNameTab" ), UIE_GET_FOCUS, OnServerButtonFocused )
+
 
 
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerJoin"), UIE_CLICK, OnServerSelected )
@@ -264,6 +269,8 @@ void function InitServerBrowserMenu()
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerDescription"), UIE_CLICK, ShowServerDescription )
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerMods"), UIE_CLICK, ShowServerMods )
 
+	AddButtonEventHandler( Hud_GetChild( file.menu, "ConnectingButton"), UIE_CLICK, ConnectingButton_Activate )
+
 	// Hidden cause no need, if server descriptions become too long use this
 	Hud_SetEnabled( Hud_GetChild( file.menu, "BtnServerDescription"), false)
 	Hud_SetEnabled( Hud_GetChild( file.menu, "BtnServerMods"), false)
@@ -285,6 +292,23 @@ void function InitServerBrowserMenu()
 
 	//Hud_GetChild( file.menu, "BtnServerName0").SetColor(0,0,0)
 	//Hud_GetChild( file.menu, "BtnServerName0").SetAlpha(255)
+	ToggleConnectingHUD(false)
+
+}
+
+void function ToggleConnectingHUD( bool vis )
+{
+	foreach (e in GetElementsByClassname(file.menu, "connectingHUD")) {
+		Hud_SetEnabled( e, vis )
+		Hud_SetVisible( e, vis )
+	}
+
+	if ( vis ) Hud_SetFocused( Hud_GetChild( file.menu, "ConnectingButton" ) )
+}
+
+void function ConnectingButton_Activate( var button )
+{
+	file.cancelConnection = true
 }
 
 // Get res ronvar instead of this crap
@@ -362,11 +386,13 @@ void function OnKeyUpArrowSelected( var button )
 
 	DisplayFocusedServerInfo(file.serverButtonFocusedID, false)
 
-	if ( file.serverButtonFocusedID != 0) return
-	file.scrollOffset -= 1
-	if (file.scrollOffset < 0) file.scrollOffset = 0
+	//file.lastSelectedServer = 999
 
-		//printt("Up arrow ", scriptID)
+	if ( file.serverButtonFocusedID != 0) return
+
+	file.scrollOffset -= 1
+	if (file.scrollOffset < 0)	file.scrollOffset = 0
+
 
 	UpdateShownPage()
 	UpdateListSliderPosition( serversArrayFiltered.len() )
@@ -378,10 +404,17 @@ void function OnKeyDownArrowSelected( var button )
 
 	DisplayFocusedServerInfo(file.serverButtonFocusedID, false)
 
+	//file.lastSelectedServer = 999
+
 	if ( file.serverButtonFocusedID != 14) return
 	file.scrollOffset += 1
-	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len()) file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
-		//printt("Down arrow ", scriptID)
+	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len())
+	{
+		file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
+	}
+	printt("1: ", file.lastSelectedServer )
+	printt("2: ", file.serverButtonFocusedID )
+
 
 	UpdateShownPage()
 	UpdateListSliderPosition( serversArrayFiltered.len() )
@@ -901,8 +934,7 @@ void function OnServerFocused(var button)
 
 void function DisplayFocusedServerInfo( int scriptID, bool wasClickNav )
 {
-	if ( scriptID == 999 ) return
-
+	if ( file.lastSelectedServer == 999 || scriptID == 999 ) return
 
 	if ( NSIsRequestingServerList() || NSGetServerCount() == 0 || file.serverListRequestFailed )
 		return
@@ -916,20 +948,17 @@ void function DisplayFocusedServerInfo( int scriptID, bool wasClickNav )
 	if (file.lastSelectedServer == serverIndex) sameServer = true
 
 
-	file.lastSelectedServer = serverIndex
-
 	file.serverSelectedTimeLast = file.serverSelectedTime
 	file.serverSelectedTime = Time()
 
-	printt(file.serverSelectedTime - file.serverSelectedTimeLast,";", file.lastSelectedServer,";", serverIndex, ";",sameServer)
+	printt(file.serverSelectedTime - file.serverSelectedTimeLast,";", file.lastSelectedServer,";", file.serverButtonFocusedID, ";",sameServer)
+
+	file.lastSelectedServer = serverIndex
 
 	if (wasClickNav && (file.serverSelectedTime - file.serverSelectedTimeLast < DOUBLE_CLICK_TIME_MS) && sameServer) 
 	{
 		OnServerSelected(0)
 	}
-
-
-
 
 	Hud_SetVisible( Hud_GetChild( menu, "BtnServerDescription" ), true )
 	Hud_SetVisible( Hud_GetChild( menu, "BtnServerMods" ), true )
@@ -1078,8 +1107,22 @@ void function ThreadedAuthAndConnectToServer( string password = "" )
 	print( "trying to authenticate with server " + NSGetServerName( file.lastSelectedServer ) + " with password " + password )
 	NSTryAuthWithServer( file.lastSelectedServer, password )
 
-	while ( NSIsAuthenticatingWithServer() )
+	ToggleConnectingHUD( true )
+
+	while ( NSIsAuthenticatingWithServer() && !file.cancelConnection)
+	{
 		WaitFrame()
+	}
+
+	ToggleConnectingHUD( false )
+
+	if (file.cancelConnection)
+	{
+		file.cancelConnection = false
+		return
+	}
+
+	file.cancelConnection = false
 
 	if ( NSWasAuthSuccessful() )
 	{
@@ -1102,7 +1145,6 @@ void function ThreadedAuthAndConnectToServer( string password = "" )
 		// only actually reload if we need to since the uiscript reset on reload lags hard
 		if ( modsChanged )
 			ReloadMods()
-
 		NSConnectToAuthedServer()
 	}
 	else
