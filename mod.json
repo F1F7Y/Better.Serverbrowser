@@ -1,7 +1,7 @@
 {
 	"Name" : "Better.Serverbrowser",
 	"Description" : "Improves the northstar serverbrowser\n\nContributors:\n  - Fifty#8113\n  - Meelo#6036\n  - Kami-Kaze#0001\n\nReport issues at: https://github.com/F1F7Y/Better.Serverbrowser/issues\nor on discord: Fifty#8113",
-	"Version": "1.2.4",
+	"Version": "1.2.5",
 	"LoadPriority": 1,
 	"ConVars": [
 		{
