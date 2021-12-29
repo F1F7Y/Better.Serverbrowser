@@ -682,7 +682,6 @@ void function FilterAndUpdateList( var n )
 	filterArguments.hideFull = GetConVarBool( "filter_hide_full" )
 	filterArguments.hideProtected = GetConVarBool( "filter_hide_protected" )
 
-	// reset selected server on filtering
 	file.scrollOffset = 0
 	UpdateListSliderPosition( serversArrayFiltered.len() )
 
