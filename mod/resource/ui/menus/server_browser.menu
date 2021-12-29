@@ -1751,20 +1751,25 @@ resource/ui/menus/mods_browse.menu
     }
 
 		// List:
-
+		BtnServerDummmyTop {
+			ControlName	RuiButton
+			visible		1
+			width		0
+			height 		0
+		}
 		BtnServer1
 		{
-			ControlName					RuiButton
+			ControlName				RuiButton
 			InheritProperties		RuiSmallButton
 			classname 				ServerButton
-			scriptID					0
-			navDown						BtnServer2
-			wide 							1120
-			xpos 							-8
+			scriptID				0
+			wide 					1120
+			xpos 					-8
 
-			pin_to_sibling				ButtonRowAnchor
-			pin_corner_to_sibling		TOP_LEFT
-			pin_to_sibling_corner		TOP_LEFT
+			pin_to_sibling			ButtonRowAnchor
+			pin_corner_to_sibling	TOP_LEFT
+			pin_to_sibling_corner	TOP_LEFT
+			navUp					BtnServerDummmyTop
 			navRight 				BtnServerJoin
 			navDown					BtnServer2
 		}
@@ -1970,13 +1975,20 @@ resource/ui/menus/mods_browse.menu
 			InheritProperties		RuiSmallButton
 			classname 				ServerButton
 			scriptID				14
-			wide 							1120
+			wide 					1120
 
 			pin_to_sibling			BtnServer14
 			pin_corner_to_sibling	TOP_LEFT
 			pin_to_sibling_corner	BOTTOM_LEFT
 			navUp					BtnServer14
 			navRight 				BtnServerJoin
+			navDown					BtnServerDummmyBottom
+		}
+		BtnServerDummmyBottom {
+			ControlName	RuiButton
+			visible		1
+			width		0
+			height 		0	
 		}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2153,6 +2165,9 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling				FilterButtonsRowAnchor
 		pin_corner_to_sibling		TOP_LEFT
 		pin_to_sibling_corner		TOP_LEFT
+
+		navUp					BtnServer15
+		navDown					SwtBtnSelectMap
 	}
 
 	BtnServerSearch
@@ -2173,6 +2188,9 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling				BtnSearchLabel
 		pin_corner_to_sibling		TOP_LEFT
 		pin_to_sibling_corner		TOP_RIGHT
+
+		navUp					BtnServer15
+		navDown					SwtBtnSelectMap
 	}
 
 	SwtBtnSelectMap
@@ -2186,7 +2204,11 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling BtnSearchLabel
 		pin_corner_to_sibling		TOP_LEFT
 		pin_to_sibling_corner		BOTTOM_LEFT
+
+		navUp					BtnServerSearch
+		navDown					SwtBtnSelectGamemode
 	}
+
 	SwtBtnSelectGamemode
 	{
 		ControlName					RuiButton
@@ -2198,6 +2220,9 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling SwtBtnSelectMap
 		pin_corner_to_sibling	TOP_LEFT
 		pin_to_sibling_corner	BOTTOM_LEFT
+
+		navUp					SwtBtnSelectMap
+		navDown					SwtBtnHideFull
 	}
 
 	SwtBtnHideFull
@@ -2218,7 +2243,11 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling BtnSearchLabel
 		pin_corner_to_sibling	TOP_LEFT
 		pin_to_sibling_corner	TOP_RIGHT
+
+		navUp					SwtBtnSelectGamemode
+		navDown					SwtBtnHideEmpty
 	}
+
 	SwtBtnHideEmpty
 	{
 		ControlName					RuiButton
@@ -2237,7 +2266,11 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling SwtBtnHideFull
 		pin_corner_to_sibling	TOP_LEFT
 		pin_to_sibling_corner	BOTTOM_LEFT
+
+		navUp					SwtBtnHideFull
+		navDown					SwtBtnHideProtected
 	}
+	
 	SwtBtnHideProtected
 	{
 		ControlName					RuiButton
@@ -2255,6 +2288,9 @@ resource/ui/menus/mods_browse.menu
 		pin_to_sibling SwtBtnHideEmpty
 		pin_corner_to_sibling	TOP_LEFT
 		pin_to_sibling_corner	BOTTOM_LEFT
+
+		navUp					SwtBtnHideEmpty
+		navDown					BtnFiltersClear
 	}
 
 	BtnFiltersClear
@@ -2273,8 +2309,17 @@ resource/ui/menus/mods_browse.menu
 		pin_corner_to_sibling	TOP_RIGHT
 		pin_to_sibling_corner	BOTTOM_RIGHT
 
-		navUp 				BtnServer15
-		navRight			BtnServerJoin
+		navUp					SwtBtnHideProtected
+		navDown					BtnDummyAfterFilterClear
+		navLeft					SwtBtnHideProtected
+		navRight				BtnServerJoin
+	}
+
+	BtnDummyAfterFilterClear {
+		ControlName	RuiButton
+		width		0
+		height		0
+		visible 	1
 	}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2495,8 +2540,8 @@ resource/ui/menus/mods_browse.menu
 			pin_corner_to_sibling	TOP_RIGHT
 			pin_to_sibling_corner	BOTTOM_RIGHT
 
-			navUp 				BtnServer15
-			navLeft				BtnFiltersClear
+			navLeft 				BtnFiltersClear
+			navRight				BtnServerSearch
 		}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
