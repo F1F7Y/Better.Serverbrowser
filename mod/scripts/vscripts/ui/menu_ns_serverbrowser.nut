@@ -301,28 +301,49 @@ void function OnCloseServerBrowserMenu()
 	//DeregisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
 	DeregisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
 	DeregisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
+	DeregisterButtonPressedCallback(KEY_TAB , OnKeyTabPressed)
 }
 
-bool function IsServerRowFocused() {
+bool function IsFilterPanelElementFocused() {
 	// get name of focused element
 	var focusedElement = GetFocus();
 	var name = Hud_GetHudName(focusedElement);
 	
-	// check if focused element is a server button.
-	// it would be nice to be able to check something like focusedElement.classname == "ServerButton"
-	// but I didn't find anything close to that so regex matching it is
-	
-	bool match = bool(regexp("^BtnServer\\d+$").match(name));
-	// print("Element \"" + name + "\" is server button: " + match);
+	// kinda sucks but just check if any of the filter elements
+	// has focus. would be nice to have tags or sth here
+	bool match = (name == "FilterPanel") ||
+				 (name == "BtnSearchLabel") ||
+				 (name == "BtnServerSearch") ||
+				 (name == "SwtBtnSelectMap") ||
+				 (name == "SwtBtnSelectGamemode") ||
+				 (name == "SwtBtnHideFull") ||
+				 (name == "SwtBtnHideEmpty") ||
+				 (name == "SwtBtnHideProtected") ||
+				 (name == "BtnFiltersClear");
+
+	print("is filter element \"" + name + "\": " + match);
 
 	return match;
 }
 
+void function OnKeyTabPressed(var button) {
+	// toggle focus between server list and filter panel
+	if (IsFilterPanelElementFocused()) {
+		// print("Switching focus from filter panel to server list");
+		Hud_SetFocused(Hud_GetChild(file.menu, "BtnServer1"));
+	}
+	else {
+		// print("Switching focus from server list to filter panel");
+		Hud_SetFocused(Hud_GetChild(file.menu, "BtnServerSearch"));
+		HideServerInfo()
+	}
+}
+
 void function OnKeyUpArrowSelected( var button )
 {
-	if (!IsServerRowFocused()) return;
+	if (IsFilterPanelElementFocused()) return;
 
-	DisplayFocusedServerInfo(file.serverButtonFocusedID)
+	DisplayFocusedServerInfo(file.serverButtonFocusedID, false)
 
 	if ( file.serverButtonFocusedID != 0) return
 	file.scrollOffset -= 1
@@ -336,9 +357,9 @@ void function OnKeyUpArrowSelected( var button )
 
 void function OnKeyDownArrowSelected( var button )
 {
-	if (!IsServerRowFocused()) return;
+	if (IsFilterPanelElementFocused()) return;
 
-	DisplayFocusedServerInfo(file.serverButtonFocusedID)
+	DisplayFocusedServerInfo(file.serverButtonFocusedID, false)
 
 	if ( file.serverButtonFocusedID != 14) return
 	file.scrollOffset += 1
@@ -473,6 +494,7 @@ void function OnServerBrowserMenuOpened()
 	//RegisterButtonPressedCallback(KEY_ENTER , FilterAndUpdateList)
 	RegisterButtonPressedCallback(KEY_UP , OnKeyUpArrowSelected)
 	RegisterButtonPressedCallback(KEY_DOWN , OnKeyDownArrowSelected)
+	RegisterButtonPressedCallback(KEY_TAB , OnKeyTabPressed)
 }
 
 
@@ -616,6 +638,7 @@ void function FilterAndUpdateList( var n )
 	filterArguments.hideFull = GetConVarBool( "filter_hide_full" )
 	filterArguments.hideProtected = GetConVarBool( "filter_hide_protected" )
 
+	// reset selected server on filtering
 	file.scrollOffset = 0
 	UpdateListSliderPosition( serversArrayFiltered.len() )
 
@@ -834,16 +857,19 @@ void function UpdateShownPage()
 
 void function OnServerButtonFocused( var button )
 {
-	int scriptID = int ( Hud_GetScriptID( button ) )
+	int scriptID = int (Hud_GetScriptID(button))	
 	file.serverButtonFocusedID = scriptID
+	DisplayFocusedServerInfo(scriptID, false);
+
 }
 
-void function OnServerFocused( var button )
+void function OnServerFocused(var button)
 {
-	DisplayFocusedServerInfo(int ( Hud_GetScriptID( button ) ))
+	int scriptID = int (Hud_GetScriptID(button))	
+	DisplayFocusedServerInfo(scriptID , true)
 }
 
-void function DisplayFocusedServerInfo( int scriptID )
+void function DisplayFocusedServerInfo( int scriptID, bool wasClickNav )
 {
 	if ( scriptID == 999 ) return
 
@@ -867,8 +893,10 @@ void function DisplayFocusedServerInfo( int scriptID )
 
 	printt(file.serverSelectedTime - file.serverSelectedTimeLast,";", file.lastSelectedServer,";", serverIndex, ";",sameServer)
 
-	if ((file.serverSelectedTime - file.serverSelectedTimeLast < DOUBLE_CLICK_TIME_MS) && sameServer )
+	if (wasClickNav && (file.serverSelectedTime - file.serverSelectedTimeLast < DOUBLE_CLICK_TIME_MS) && sameServer) 
+	{
 		OnServerSelected(0)
+	}
 
 
 
@@ -903,6 +931,21 @@ void function DisplayFocusedServerInfo( int scriptID )
 		Hud_SetText( Hud_GetChild( menu, "NextGameModeName" ), mode )
 	else
 		Hud_SetText( Hud_GetChild( menu, "NextGameModeName" ), "#NS_SERVERBROWSER_UNKNOWNMODE" )
+}
+
+void function HideServerInfo() {
+	Hud_SetVisible(Hud_GetChild(file.menu, "BtnServerDescription"), false)
+	Hud_SetVisible(Hud_GetChild(file.menu, "BtnServerMods"), false)
+	Hud_SetVisible(Hud_GetChild(file.menu, "BtnServerJoin"), false)
+	Hud_SetVisible(Hud_GetChild(file.menu, "LabelDescription"), false)
+	Hud_SetVisible(Hud_GetChild(file.menu, "LabelMods"), false)
+	Hud_SetVisible(Hud_GetChild(file.menu, "NextMapImage"), false)
+	Hud_SetVisible(Hud_GetChild(file.menu, "NextMapBack"), false)
+	Hud_SetVisible(Hud_GetChild(file.menu, "NextMapName"), false)
+	Hud_SetVisible(Hud_GetChild(file.menu, "ServerName"), false)
+	Hud_SetVisible(Hud_GetChild(file.menu, "NextModeIcon"), false)
+	Hud_SetVisible(Hud_GetChild(file.menu, "NextGameModeName"), false)
+
 }
 
 string function FillInServerModsLabel( int server )
