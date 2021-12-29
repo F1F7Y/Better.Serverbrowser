@@ -71,6 +71,7 @@ struct {
 	float serverSelectedTimeLast = 0
 	//array<string> serverButtons
 	int serverButtonFocusedID = 0
+	bool usingArrowKeys = false
 	bool shouldFocus = true
 
 	bool cancelConnection = false
@@ -235,6 +236,8 @@ void function InitServerBrowserMenu()
 		Hud_SetWidth( button , width )
 	}
 
+	AddButtonEventHandler( Hud_GetChild( file.menu , "BtnServerNameTab" ), UIE_GET_FOCUS, OnServerButtonFocused )
+
 
 
 	AddButtonEventHandler( Hud_GetChild( file.menu, "BtnServerJoin"), UIE_CLICK, OnServerSelected )
@@ -343,13 +346,25 @@ void function OnCloseServerBrowserMenu()
 
 void function OnKeyUpArrowSelected( var button )
 {
+	file.usingArrowKeys = true
+
+	if ( file.serverButtonFocusedID == 0 && file.lastSelectedServer == 0)
+	{
+		Hud_SetFocused( Hud_GetChild(file.menu, "BtnServerNameTab" ) )
+	}
+
+
 	DisplayFocusedServerInfo(file.serverButtonFocusedID)
 
-	if ( file.serverButtonFocusedID != 0) return
-	file.scrollOffset -= 1
-	if (file.scrollOffset < 0) file.scrollOffset = 0
 
-		//printt("Up arrow ", scriptID)
+
+	//file.lastSelectedServer = 999
+
+	if ( file.serverButtonFocusedID != 0) return
+
+	file.scrollOffset -= 1
+	if (file.scrollOffset < 0)	file.scrollOffset = 0
+
 
 	UpdateShownPage()
 	UpdateListSliderPosition( serversArrayFiltered.len() )
@@ -357,12 +372,25 @@ void function OnKeyUpArrowSelected( var button )
 
 void function OnKeyDownArrowSelected( var button )
 {
+	file.usingArrowKeys = true
+	if (file.serverButtonFocusedID == 14 && file.lastSelectedServer == serversArrayFiltered.len()-1)
+	{
+		Hud_SetFocused( Hud_GetChild(file.menu, "BtnFiltersClear" ) )
+	}
+
 	DisplayFocusedServerInfo(file.serverButtonFocusedID)
+
+	//file.lastSelectedServer = 999
 
 	if ( file.serverButtonFocusedID != 14) return
 	file.scrollOffset += 1
-	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len()) file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
-		//printt("Down arrow ", scriptID)
+	if (file.scrollOffset + BUTTONS_PER_PAGE > serversArrayFiltered.len())
+	{
+		file.scrollOffset = serversArrayFiltered.len() - BUTTONS_PER_PAGE
+	}
+	printt("1: ", file.lastSelectedServer )
+	printt("2: ", file.serverButtonFocusedID )
+
 
 	UpdateShownPage()
 	UpdateListSliderPosition( serversArrayFiltered.len() )
@@ -872,13 +900,13 @@ void function OnServerButtonFocused( var button )
 
 void function OnServerFocused( var button )
 {
+	file.usingArrowKeys = false
 	DisplayFocusedServerInfo(int ( Hud_GetScriptID( button ) ))
 }
 
 void function DisplayFocusedServerInfo( int scriptID )
 {
-	if ( scriptID == 999 ) return
-
+	if ( file.lastSelectedServer == 999 || scriptID == 999 ) return
 
 	if ( NSIsRequestingServerList() || NSGetServerCount() == 0 || file.serverListRequestFailed )
 		return
@@ -892,14 +920,14 @@ void function DisplayFocusedServerInfo( int scriptID )
 	if (file.lastSelectedServer == serverIndex) sameServer = true
 
 
-	file.lastSelectedServer = serverIndex
-
 	file.serverSelectedTimeLast = file.serverSelectedTime
 	file.serverSelectedTime = Time()
 
-	printt(file.serverSelectedTime - file.serverSelectedTimeLast,";", file.lastSelectedServer,";", serverIndex, ";",sameServer)
+	printt(file.serverSelectedTime - file.serverSelectedTimeLast,";", file.lastSelectedServer,";", file.serverButtonFocusedID, ";",sameServer)
 
-	if ((file.serverSelectedTime - file.serverSelectedTimeLast < DOUBLE_CLICK_TIME_MS) && sameServer )
+	file.lastSelectedServer = serverIndex
+
+	if ((file.serverSelectedTime - file.serverSelectedTimeLast < DOUBLE_CLICK_TIME_MS) && sameServer && !file.usingArrowKeys)
 		OnServerSelected(0)
 
 
