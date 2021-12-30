@@ -742,6 +742,7 @@ void function FilterServerList()
 	printt("---------------------------------------------")
 
 	Hud_SetText( Hud_GetChild( file.menu, "InGamePlayerCount" ), string( totalPlayers ) )
+	Hud_SetText( Hud_GetChild( file.menu, "TotalServerCount" ), string( NSGetServerCount() ) )
 }
 
 void function CheckGamemode( serverStruct t )
