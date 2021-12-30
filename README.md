@@ -4,6 +4,12 @@ Better.serverbrowser is a mod for northstar aiming to improve the serverbrowser 
 
 ![preview image](https://github.com/F1F7Y/Better.Serverbrowser/blob/main/preview.jpg)
 
+## Note
+This mod has been merged into Northstar.Client; 
+All further development will be done in Northstar.Client
+
+This means this repo is outdated
+
 ## Installation
 1. Download the newest release from the Releases page
 1. Unzip downloaded file
@@ -22,4 +28,4 @@ You can disable the mod by clicking on it in the mods menu
 
 ## FAQ
 - Will this be incorporated into northstar?
-  - Yes
+  - Already is
