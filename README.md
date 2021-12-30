@@ -28,4 +28,4 @@ You can disable the mod by clicking on it in the mods menu
 
 ## FAQ
 - Will this be incorporated into northstar?
-  - Yes
+  - Already is
